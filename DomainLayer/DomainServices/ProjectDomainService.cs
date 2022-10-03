@@ -9,33 +9,12 @@ using KaitosObjects.DTOs;
 namespace DomainLayer.DomainServices
 {
     public static class ProjectDomainService
-    {
-        //Debug prop DB
-        private static IEnumerable<ProjectDTO> _projects;
-
-        public static IEnumerable<ProjectDTO> GetAllProjects()
-        {
-            //DAL service layer call
-            if (_projects != null)
-            {
-                InvokeAllProjectsChanged(_projects);
-                return _projects;
-            }
-                
-            else
-            {
-                _projects = new ProjectService().GetAll();
-                InvokeAllProjectsChanged(_projects);
-                return _projects;
-            }            
-        }
-
-
+    {        
         private static Func<ProjectDTO> SelectProject;
         private static Func<IEnumerable<PageDTO>> SelectPages;
 
         //GET SELECTED PROJECT
-        public static void SubscribeToSelectedProjectSource(Func<ProjectDTO> action)
+        public static void SubscribeSelectedProjectSource(Func<ProjectDTO> action)
         {
             if (SelectProject != null)
                 throw new InvalidOperationException("Vybraný projekt není možné určovat z více zdrojů!");
@@ -45,7 +24,7 @@ namespace DomainLayer.DomainServices
         public static ProjectDTO ReturnSelectedProject() => SelectProject.Invoke();
 
         //GET SELECTED PAGES
-        public static void SubscribeToSelectedPagesSource(Func<IEnumerable<PageDTO>> action)
+        public static void SubscribeSelectedPagesSource(Func<IEnumerable<PageDTO>> action)
         {
             if (SelectPages != null)
                 throw new InvalidOperationException("Vybrané stránky není možné určovat z více zdrojů!");

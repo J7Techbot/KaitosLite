@@ -27,8 +27,8 @@ namespace ViewLayer.ViewModels
 
             AddModsCommand = new RelayCommand(param => this.OnCreateMods(), param => true);
 
-            ProjectDomainService.SubscribeProjectChanged(ProjectChanged);
-            ProjectDomainService.SubscribeSelectedProjectModsChanged(SelectedProjectModsChanged);
+            ProjectDomainService.SubscribeProjectChanged(ProjectChanged); 
+            ProjectDomainService.SubscribeSelectedProjectModsChanged(p => CollectionViewSource.GetDefaultView(p).Refresh());
         }
 
         
@@ -39,13 +39,7 @@ namespace ViewLayer.ViewModels
                 Mods.Add(_modsManager.Create());
 
                 ProjectDomainService.InvokeSelectedProjectModsChanged(Mods);
-            }
-            
-        }
-
-        private void SelectedProjectModsChanged(IEnumerable<ModsDTO> Mods)
-        {
-            CollectionViewSource.GetDefaultView(Mods).Refresh();
+            }            
         }
 
         private void ProjectChanged(ProjectDTO project)
@@ -54,6 +48,6 @@ namespace ViewLayer.ViewModels
                 project.Mods = new List<ModsDTO>();
 
             Mods = project.Mods;
-        }        
+        }
     }
 }

@@ -27,8 +27,8 @@ namespace ViewLayer.ViewModels
         public PagesViewModel()
         {
             ProjectDomainService.SubscribeProjectChanged(ProjectChanged);
-            ProjectDomainService.SubscribeToSelectedPagesSource(ReturnSelectedPages);
-            ProjectDomainService.SubscribeProjectPagesChanged(ProjectPagesChanged);
+            ProjectDomainService.SubscribeSelectedPagesSource(() => { return _selectedPages; });
+            ProjectDomainService.SubscribeProjectPagesChanged(p => CollectionViewSource.GetDefaultView(p).Refresh());
 
             SelectPageCommand = new RelayCommand(param => this.OnSelectionChanged(param), param => true);
             AddPageCommand = new RelayCommand(param => this.OnAddPage(), param => true);
@@ -44,22 +44,15 @@ namespace ViewLayer.ViewModels
                 ProjectDomainService.InvokeProjectPagesChanged(Pages);
             }            
         }
-        private void ProjectPagesChanged(IEnumerable<PageDTO> pages)
-        {
-            CollectionViewSource.GetDefaultView(pages).Refresh();
-        }
+
         private void ProjectChanged(ProjectDTO project)
         {
             if (project.Pages == null)
                 project.Pages = new List<PageDTO>();
 
-            Pages = project.Pages;
-               
+            Pages = project.Pages;               
         }
-        private IEnumerable<PageDTO> ReturnSelectedPages()
-        {
-            return _selectedPages;
-        }
+
         public void OnSelectionChanged(object param)
         {
             IEnumerable<object> collection = param as IEnumerable<object>;

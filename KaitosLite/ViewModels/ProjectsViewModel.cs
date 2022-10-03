@@ -32,14 +32,15 @@ namespace ViewLayer.ViewModels
 
         public ProjectsViewModel()
         {
-            AllProjects = new ObservableCollection<ProjectDTO>(ProjectDomainService.GetAllProjects());
+            _projectManager = new ProjectManager();
+
+            AllProjects = new ObservableCollection<ProjectDTO>(_projectManager.GetAllProjects());
             AddProjectCommand = new RelayCommand(param => this.OnProjectAdded(), param => true);
             SelectProjectCommand = new RelayCommand(param => this.OnSelectProject(param), param => true);
 
-            _projectManager = new ProjectManager();
+            ProjectDomainService.SubscribeProjectsChanged(x => AllProjects = new ObservableCollection<ProjectDTO>(x));
 
-            ProjectDomainService.SubscribeProjectsChanged(ProjectsChanged);
-            ProjectDomainService.SubscribeToSelectedProjectSource(ReturnSelectedProject);
+            ProjectDomainService.SubscribeSelectedProjectSource(() => { return _selectedProject;});
         }
 
         private void OnSelectProject(object param)
@@ -51,16 +52,7 @@ namespace ViewLayer.ViewModels
         private void OnProjectAdded()
         {
             AllProjects.Add(_projectManager.Create());
-
             ProjectDomainService.InvokeAllProjectsChanged(AllProjects);
-        }
-        private void ProjectsChanged(IEnumerable<ProjectDTO> projects)
-        {
-            AllProjects = new ObservableCollection<ProjectDTO>( projects);
-        }
-        private ProjectDTO ReturnSelectedProject()
-        {
-            return _selectedProject;
         }
     }
 }
