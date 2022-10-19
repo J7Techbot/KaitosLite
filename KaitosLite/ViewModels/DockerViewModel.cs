@@ -27,6 +27,9 @@ namespace ViewLayer.ViewModels
         private bool disableOrderButtons;
         public bool DisableOrderButtons { get => disableOrderButtons; set { disableOrderButtons = value; OnPropertyChanged(); } }
 
+        private string _xKey1;
+        private string _xKey2;
+        private string _xKey3;
         public RelayCommand PopUpModuleCommand { get; set; }
         public RelayCommand PopUpDownModuleCommand { get; set; }
 
@@ -49,11 +52,16 @@ namespace ViewLayer.ViewModels
             Application.Current.Resources["ProjectsModule2"] = Application.Current.Resources["ModsUC"];
             Application.Current.Resources["ProjectsModule3"] = Application.Current.Resources["PagesUC"];
 
-            ModulesOrderCollection = new ObservableCollection<ModuleOrderDTO>();
-            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Projekty", XKey = "ProjectUC" });
-            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Mods", XKey = "ModsUC" });
-            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Stránky", XKey = "PagesUC" });
+            _xKey1 = "ProjectUC";
+            _xKey2 = "ModsUC";
+            _xKey3 = "PagesUC";
 
+            ModulesOrderCollection = new ObservableCollection<ModuleOrderDTO>();
+            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Projekty", XKey = _xKey1 });
+            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Mods", XKey = _xKey2 });
+            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Stránky", XKey = _xKey3 });
+
+            
             IsColumn1Visible = true;
             IsColumn2Visible = true;
             IsColumn3Visible = true;
@@ -87,31 +95,32 @@ namespace ViewLayer.ViewModels
         private void OnPopUp(object param)
         {
             int collectionKey = int.Parse((string)param);
-
+            var xKey = "";
             switch (collectionKey)
             {
 
                 case 0:
                     IsColumn1Visible = false;
+                    xKey = _xKey1;
                     Application.Current.Resources["ProjectsModule1"] = Application.Current.Resources["ClearControl"];
                     break;
                 case 1:
                     IsColumn2Visible = false;
+                    xKey = _xKey2;
                     Application.Current.Resources["ProjectsModule2"] = Application.Current.Resources["ClearControl"];
-
                     break;
                 case 2:
                     IsColumn3Visible = false;
+                    xKey = _xKey3;
                     Application.Current.Resources["ProjectsModule3"] = Application.Current.Resources["ClearControl"];
-
                     break;
             }
 
-            var uc = (UserControl)Application.Current.Resources[ModulesOrderCollection[collectionKey].XKey];
+            var uc = (UserControl)Application.Current.Resources[xKey];
             PopUp1Window popUp1Window = new PopUp1Window(uc);
             popUp1Window.Show();
-
-            ModulesOrderCollection.RemoveAt(collectionKey);
+            
+            ModulesOrderCollection.Remove(ModulesOrderCollection.First(x => x.XKey == xKey));
         }
     }
 }
