@@ -10,27 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ViewLayer.ViewModels;
 
 namespace ViewLayer.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ModuleOrderWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ModuleOrderWindow : Window
     {
-        public MainWindow()
+        public ModuleOrderWindow(BaseViewModel baseViewModel)
         {
-            DataContext = new MainViewModel();
+            DataContext = baseViewModel;
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DockerWindow win = new DockerWindow();
-            win.Show();
-        }
+        }        
     }
 }
+

@@ -14,21 +14,17 @@ namespace DomainLayer.DomainServices
         private static Func<IEnumerable<PageDTO>> SelectPages;
 
         //GET SELECTED PROJECT
+        //ONLY ONE reference is allowed
         public static void SubscribeSelectedProjectSource(Func<ProjectDTO> action)
-        {
-            if (SelectProject != null)
-                throw new InvalidOperationException("Vybraný projekt není možné určovat z více zdrojů!");
-
+        {           
             SelectProject = action;
         }
         public static ProjectDTO ReturnSelectedProject() => SelectProject.Invoke();
 
         //GET SELECTED PAGES
+        //ONLY ONE reference is allowed
         public static void SubscribeSelectedPagesSource(Func<IEnumerable<PageDTO>> action)
-        {
-            if (SelectPages != null)
-                throw new InvalidOperationException("Vybrané stránky není možné určovat z více zdrojů!");
-
+        {           
             SelectPages = action;
         }         
         public static IEnumerable<PageDTO> ReturnSelectedPages() => SelectPages.Invoke();
@@ -65,7 +61,7 @@ namespace DomainLayer.DomainServices
         }
         public static void InvokeSelectedPagesChanged(IEnumerable<PageDTO> pages)
         {
-            if (ProjectsChangedEvent != null)
+            if (SelectedPagesChangedEvent != null)
                 SelectedPagesChangedEvent.Invoke(pages);
         }
 

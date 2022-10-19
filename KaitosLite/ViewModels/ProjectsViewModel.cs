@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using ViewLayer.Shared;
 
 namespace ViewLayer.ViewModels

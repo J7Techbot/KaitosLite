@@ -1,0 +1,55 @@
+﻿<Window
+    x:Class="ViewLayer.Views.ModuleOrderWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+    xmlns:local="clr-namespace:ViewLayer.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="ModuleOrderWindow"
+    Width="400"
+    Height="240"
+    mc:Ignorable="d">
+    <Grid>
+        <Label
+            Margin="0,0,50,0"
+            HorizontalAlignment="Right"
+            Content="Nastavte si pořadí panelů na obrazovce(zleva doprava)" />
+        <ListBox
+            Width="250"
+            Margin="0,0,50,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            ItemsSource="{Binding ModulesOrderCollection}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="235" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Setter Property="FontSize" Value="20" />
+
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button
+            Width="70"
+            Height="25"
+            Margin="0,0,50,15"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Command="{Binding SaveOrderCommand}"
+            Content="Uložit" />
+
+    </Grid>
+</Window>
