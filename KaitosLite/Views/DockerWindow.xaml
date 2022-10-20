@@ -13,6 +13,9 @@
     mc:Ignorable="d">
     <Window.Resources>
         <conv:ORGateMultiBoolConverter x:Key="ORGateMultiBoolConverter" />
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <conv:MultiBoolToVisibilityConvertor x:Key="MultiBoolToVisibilityConverter" />
+        <GridLength x:Key="gl">0</GridLength>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -61,10 +64,11 @@
             Margin="5"
             Content="Protokol" />
 
+
         <GroupBox
             Grid.RowSpan="7"
             Grid.Column="1"
-            Margin="5"
+            Margin="10,0,10,0"
             Header="Modules">
             <Grid Grid.RowSpan="7" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -72,11 +76,22 @@
                         <ColumnDefinition.Style>
                             <Style TargetType="{x:Type ColumnDefinition}">
                                 <Setter Property="Width" Value="*" />
-                                <Setter Property="MinWidth" Value="50" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsColumn1Visible, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value="False">
-                                        <Setter Property="Width" Value="0" />
-                                        <Setter Property="MinWidth" Value="0" />
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="BeginStoryboard1">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
+                                                        <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource gl}" />
+                                                        </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <RemoveStoryboard BeginStoryboardName="BeginStoryboard1" />
+                                        </DataTrigger.ExitActions>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -86,11 +101,22 @@
                         <ColumnDefinition.Style>
                             <Style TargetType="{x:Type ColumnDefinition}">
                                 <Setter Property="Width" Value="*" />
-                                <Setter Property="MinWidth" Value="50" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsColumn2Visible, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value="False">
-                                        <Setter Property="Width" Value="0" />
-                                        <Setter Property="MinWidth" Value="0" />
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="BeginStoryboard1">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
+                                                        <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource gl}" />
+                                                        </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <RemoveStoryboard BeginStoryboardName="BeginStoryboard1" />
+                                        </DataTrigger.ExitActions>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -100,11 +126,22 @@
                         <ColumnDefinition.Style>
                             <Style TargetType="{x:Type ColumnDefinition}">
                                 <Setter Property="Width" Value="*" />
-                                <Setter Property="MinWidth" Value="50" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsColumn3Visible, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Value="False">
-                                        <Setter Property="Width" Value="0" />
-                                        <Setter Property="MinWidth" Value="0" />
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="BeginStoryboard1">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width">
+                                                        <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{StaticResource gl}" />
+                                                        </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <RemoveStoryboard BeginStoryboardName="BeginStoryboard1" />
+                                        </DataTrigger.ExitActions>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -115,16 +152,31 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="10*" />
                 </Grid.RowDefinitions>
+
                 <GridSplitter
                     Grid.RowSpan="2"
                     Grid.Column="0"
                     Width="5"
-                    ResizeBehavior="CurrentAndNext" />
+                    Background="BurlyWood"
+                    ResizeBehavior="CurrentAndNext">
+                    <GridSplitter.Visibility>
+                        <MultiBinding Converter="{StaticResource MultiBoolToVisibilityConverter}">
+                            <Binding Path="IsColumn2Visible" />
+                        </MultiBinding>
+                    </GridSplitter.Visibility>
+                </GridSplitter>
                 <GridSplitter
                     Grid.RowSpan="2"
                     Grid.Column="1"
                     Width="5"
-                    ResizeBehavior="CurrentAndNext" />
+                    Background="BurlyWood"
+                    ResizeBehavior="CurrentAndNext">
+                    <GridSplitter.Visibility>
+                        <MultiBinding Converter="{StaticResource MultiBoolToVisibilityConverter}">
+                            <Binding Path="IsColumn3Visible" />
+                        </MultiBinding>
+                    </GridSplitter.Visibility>
+                </GridSplitter>
 
                 <StackPanel
                     Grid.Column="0"
@@ -137,7 +189,8 @@
                         Margin="3"
                         Command="{Binding PopUpModuleCommand}"
                         CommandParameter="0"
-                        Content="X">
+                        Content="X"
+                        Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                                 <Binding Path="IsColumn2Visible" />
@@ -149,10 +202,22 @@
                         Width="20"
                         Height="20"
                         Command="{Binding ModuleOrderCommand}"
-                        Content="P" />
-                </StackPanel>
-                <ContentControl Grid.Row="1" Content="{DynamicResource ProjectsModule1}" />
+                        Content="P"
+                        Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
+                                <Binding Path="IsColumn2Visible" />
+                                <Binding Path="IsColumn3Visible" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
 
+                </StackPanel>
+                <ContentControl
+                    Grid.Row="1"
+                    Margin="5,0,9,0"
+                    Content="{DynamicResource Module1}"
+                    Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                 <StackPanel
                     Grid.Column="1"
@@ -166,17 +231,34 @@
                         Command="{Binding PopUpModuleCommand}"
                         CommandParameter="1"
                         Content="X"
-                        IsEnabled="{Binding DisableOrderButtons}" />
+                        Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
+                                <Binding Path="IsColumn1Visible" />
+                                <Binding Path="IsColumn3Visible" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                     <Button
                         Width="20"
                         Height="20"
                         Command="{Binding ModuleOrderCommand}"
-                        Content="P" />
+                        Content="P"
+                        Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
+                                <Binding Path="IsColumn1Visible" />
+                                <Binding Path="IsColumn3Visible" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                 </StackPanel>
                 <ContentControl
                     Grid.Row="1"
                     Grid.Column="1"
-                    Content="{DynamicResource ProjectsModule2}" />
+                    Margin="5,0,9,0"
+                    Content="{DynamicResource Module2}"
+                    Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                 <StackPanel
                     Grid.Column="2"
@@ -190,19 +272,34 @@
                         Command="{Binding PopUpModuleCommand}"
                         CommandParameter="2"
                         Content="X"
-                        IsEnabled="{Binding DisableOrderButtons}">
-                        
+                        Visibility="{Binding IsColumn3Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
+                                <Binding Path="IsColumn1Visible" />
+                                <Binding Path="IsColumn2Visible" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
                     </Button>
                     <Button
                         Width="20"
                         Height="20"
                         Command="{Binding ModuleOrderCommand}"
-                        Content="P" />
+                        Content="P"
+                        Visibility="{Binding IsColumn3Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
+                                <Binding Path="IsColumn1Visible" />
+                                <Binding Path="IsColumn2Visible" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                 </StackPanel>
                 <ContentControl
                     Grid.Row="1"
                     Grid.Column="2"
-                    Content="{DynamicResource ProjectsModule3}" />
+                    Margin="5,0,9,0"
+                    Content="{DynamicResource Module3}"
+                    Visibility="{Binding IsColumn3Visible, Converter={StaticResource BoolToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
 

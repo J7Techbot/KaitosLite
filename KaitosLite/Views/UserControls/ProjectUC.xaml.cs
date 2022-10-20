@@ -19,7 +19,7 @@ namespace ViewLayer.Views.UserControls
     /// <summary>
     /// Interaction logic for ProjectUC.xaml
     /// </summary>
-    public partial class ProjectUC : UserControl
+    public partial class ProjectUC : BaseUserControl
     {
         public ProjectUC()
         {

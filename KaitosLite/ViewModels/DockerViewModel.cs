@@ -3,6 +3,7 @@ using KaitosObjects.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ViewLayer.Shared;
 using ViewLayer.Views;
+using ViewLayer.Views.UserControls;
 
 namespace ViewLayer.ViewModels
 {
@@ -21,62 +23,83 @@ namespace ViewLayer.ViewModels
         private bool isColumn2Visible;
         public bool IsColumn2Visible { get => isColumn2Visible; set { isColumn2Visible = value; OnPropertyChanged(); } }
 
-        private bool isColumn3Visible;        
+        private bool isColumn3Visible;
         public bool IsColumn3Visible { get => isColumn3Visible; set { isColumn3Visible = value; OnPropertyChanged(); } }
-
-        private bool disableOrderButtons;
-        public bool DisableOrderButtons { get => disableOrderButtons; set { disableOrderButtons = value; OnPropertyChanged(); } }
 
         private string _xKey1;
         private string _xKey2;
         private string _xKey3;
-        public RelayCommand PopUpModuleCommand { get; set; }
-        public RelayCommand PopUpDownModuleCommand { get; set; }
 
+        public RelayCommand PopUpModuleCommand { get; set; }
         public RelayCommand ModuleOrderCommand { get; set; }
         public RelayCommand SaveOrderCommand { get; set; }
 
+
+        private ModuleOrderDTO[] _modules;
         public ObservableCollection<ModuleOrderDTO> ModulesOrderCollection { get; set; }
 
         public DockerViewModel()
         {
-            DisableOrderButtons = true;
-
-            PopUpModuleCommand = new RelayCommand(param => this.OnPopUp(param), param => true);
-            PopUpDownModuleCommand = new RelayCommand(param => this.OnPopDown(param), param => true);
+            PopUpModuleCommand = new RelayCommand(param => this.OnPopUpOpen(param), param => true);
             ModuleOrderCommand = new RelayCommand(param => this.OnModuleOrder(), param => true);
             SaveOrderCommand = new RelayCommand(param => this.OnSaveOrder(), param => true);
 
-            //load from config
-            Application.Current.Resources["ProjectsModule1"] = Application.Current.Resources["ProjectUC"];
-            Application.Current.Resources["ProjectsModule2"] = Application.Current.Resources["ModsUC"];
-            Application.Current.Resources["ProjectsModule3"] = Application.Current.Resources["PagesUC"];
 
-            _xKey1 = "ProjectUC";
-            _xKey2 = "ModsUC";
-            _xKey3 = "PagesUC";
+            //this is collection of all modules and must be loaded from Db, or file
+            _modules = new ModuleOrderDTO[] { new ModuleOrderDTO() { Name = "Projekty", XKey = "ProjectUC" },
+                                              new ModuleOrderDTO() { Name = "Mods", XKey = "ModsUC" },
+                                              new ModuleOrderDTO() { Name = "Stránky", XKey = "PagesUC" }};
+
+
+            #region LOAD FROM CONFIG
+
+            //set modules for this viewModel
+            _xKey1 = _modules[0].XKey; //index number or select key to collection must be defined by outside,config?
+            _xKey2 = _modules[1].XKey;
+            _xKey3 = _modules[2].XKey;
 
             ModulesOrderCollection = new ObservableCollection<ModuleOrderDTO>();
-            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Projekty", XKey = _xKey1 });
-            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Mods", XKey = _xKey2 });
-            ModulesOrderCollection.Add(new ModuleOrderDTO() { Name = "Stránky", XKey = _xKey3 });
 
-            
+            Application.Current.Resources["Module1"] = Application.Current.Resources[_xKey1];
+            ModulesOrderCollection.Add(_modules.First(x => x.XKey == _xKey1));
+
+            Application.Current.Resources["Module2"] = Application.Current.Resources[_xKey2];
+            ModulesOrderCollection.Add(_modules.First(x => x.XKey == _xKey2));
+
+            Application.Current.Resources["Module3"] = Application.Current.Resources[_xKey3];
+            ModulesOrderCollection.Add(_modules.First(x => x.XKey == _xKey3));
+
+
             IsColumn1Visible = true;
             IsColumn2Visible = true;
             IsColumn3Visible = true;
 
-            
+            #endregion
         }
 
         private void OnSaveOrder()
         {
-            if (ModulesOrderCollection.Count > 0 && IsColumn1Visible)
-                Application.Current.Resources["ProjectsModule1"] = Application.Current.Resources[ModulesOrderCollection[0].XKey];
-            if (ModulesOrderCollection.Count > 1 && IsColumn2Visible)
-                Application.Current.Resources["ProjectsModule2"] = Application.Current.Resources[ModulesOrderCollection[1].XKey];
-            if (ModulesOrderCollection.Count > 2 && IsColumn3Visible)
-                Application.Current.Resources["ProjectsModule3"] = Application.Current.Resources[ModulesOrderCollection[2].XKey];
+            bool free1 = true, free2 = true;
+            foreach (var module in ModulesOrderCollection)
+            {
+                if (IsColumn1Visible && free1)
+                {
+                    free1 = false;
+                    _xKey1 = module.XKey;
+                    Application.Current.Resources["Module1"] = Application.Current.Resources[module.XKey];
+                }
+                else if (IsColumn2Visible && free2)
+                {
+                    free2 = false;
+                    _xKey2 = module.XKey;
+                    Application.Current.Resources["Module2"] = Application.Current.Resources[module.XKey];
+                }
+                else
+                {
+                    _xKey3 = module.XKey;
+                    Application.Current.Resources["Module3"] = Application.Current.Resources[module.XKey];
+                }
+            }
 
             //save to config
         }
@@ -86,41 +109,99 @@ namespace ViewLayer.ViewModels
             ModuleOrderWindow moduleOrderWindow = new ModuleOrderWindow(this);
             moduleOrderWindow.Show();
         }
-
-        private void OnPopDown(object param)
-        {
-            Application.Current.Resources["t"] = Application.Current.Resources["e"];
-        }
-
-        private void OnPopUp(object param)
+       
+        private void OnPopUpOpen(object param)
         {
             int collectionKey = int.Parse((string)param);
-            var xKey = "";
+            string xKey = "";
             switch (collectionKey)
             {
-
                 case 0:
-                    IsColumn1Visible = false;
                     xKey = _xKey1;
-                    Application.Current.Resources["ProjectsModule1"] = Application.Current.Resources["ClearControl"];
+                    if (isColumn2Visible)
+                    {
+                        if (isColumn3Visible)
+                        {
+                            _xKey1 = _xKey2;
+                            _xKey2 = _xKey3;
+
+                            IsColumn3Visible = false;
+
+                            Application.Current.Resources["Module1"] = Application.Current.Resources[_xKey1];
+                            Application.Current.Resources["Module2"] = Application.Current.Resources[_xKey2];
+                        }
+                        else
+                        {
+                            _xKey1 = _xKey2;
+
+                            IsColumn2Visible = false;
+
+                            Application.Current.Resources["Module1"] = Application.Current.Resources[_xKey1];
+                        }
+                    }
                     break;
                 case 1:
-                    IsColumn2Visible = false;
                     xKey = _xKey2;
-                    Application.Current.Resources["ProjectsModule2"] = Application.Current.Resources["ClearControl"];
+                    if (isColumn3Visible)
+                    {
+                        _xKey2 = _xKey3;
+
+                        IsColumn3Visible = false;
+
+                        Application.Current.Resources["Module2"] = Application.Current.Resources[_xKey2];
+                    }
+                    else
+                    {
+
+                        IsColumn2Visible = false;
+                        Application.Current.Resources["Module2"] = Application.Current.Resources["ClearControl"];
+                    }
                     break;
                 case 2:
-                    IsColumn3Visible = false;
                     xKey = _xKey3;
-                    Application.Current.Resources["ProjectsModule3"] = Application.Current.Resources["ClearControl"];
+                    IsColumn3Visible = false;
+                    Application.Current.Resources["Module3"] = Application.Current.Resources["ClearControl"];
                     break;
             }
 
-            var uc = (UserControl)Application.Current.Resources[xKey];
-            PopUp1Window popUp1Window = new PopUp1Window(uc);
-            popUp1Window.Show();
-            
+            var userControl = (BaseUserControl)Application.Current.Resources[xKey];
+            userControl.XKeyIdent = xKey;
+
+            PopUpWindow popUpWindow = new PopUpWindow(userControl);
+            popUpWindow.Closing += PopUpClose;
+            popUpWindow.Show();
+
             ModulesOrderCollection.Remove(ModulesOrderCollection.First(x => x.XKey == xKey));
+        }
+        private void PopUpClose(object sender, CancelEventArgs e)
+        {
+            BaseUserControl uc = (BaseUserControl)(sender as PopUpWindow).ContentControl.Content;
+
+            if (!IsColumn2Visible)
+            {
+                _xKey2 = uc.XKeyIdent;
+                IsColumn2Visible = true;
+                Application.Current.Resources["Module2"] = Application.Current.Resources[uc.XKeyIdent];
+            }
+            else if (!IsColumn3Visible)
+            {
+                _xKey3 = uc.XKeyIdent;
+                IsColumn3Visible = true;
+                Application.Current.Resources["Module3"] = Application.Current.Resources[uc.XKeyIdent];
+            }
+
+            SortOrderCollection();
+        }
+
+        private void SortOrderCollection()
+        {
+            ModulesOrderCollection.Clear();
+            if (IsColumn1Visible)
+                ModulesOrderCollection.Add(_modules.First(x => x.XKey == _xKey1));
+            if (IsColumn2Visible)
+                ModulesOrderCollection.Add(_modules.First(x => x.XKey == _xKey2));
+            if (IsColumn3Visible)
+                ModulesOrderCollection.Add(_modules.First(x => x.XKey == _xKey3));
         }
     }
 }

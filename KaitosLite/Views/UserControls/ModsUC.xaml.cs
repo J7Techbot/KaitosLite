@@ -19,8 +19,9 @@ namespace ViewLayer.Views.UserControls
     /// <summary>
     /// Interaction logic for ModsUC.xaml
     /// </summary>
-    public partial class ModsUC : UserControl
+    public partial class ModsUC : BaseUserControl
     {
+        
         public ModsUC()
         {
             DataContext = new ModsViewModel();

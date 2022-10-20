@@ -19,7 +19,7 @@ namespace ViewLayer.Views.UserControls
     /// <summary>
     /// Interaction logic for PagesUC.xaml
     /// </summary>
-    public partial class PagesUC : UserControl
+    public partial class PagesUC : BaseUserControl
     {
         public PagesUC()
         {

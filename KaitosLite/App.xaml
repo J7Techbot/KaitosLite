@@ -10,9 +10,6 @@
         <UC:ProjectUC x:Key="ProjectUC" />
         <UC:ModsUC x:Key="ModsUC" />
         <UC:PagesUC x:Key="PagesUC" />
-        <UserControl x:Key="ProjectsModule1" />
-        <UserControl x:Key="ProjectsModule2" />
-        <UserControl x:Key="ProjectsModule3" />
-        <UserControl x:Key="ClearControl"/>
+        <UC:BaseUserControl x:Key="ClearControl"/>
     </Application.Resources>
 </Application>
