@@ -27,6 +27,9 @@ namespace ViewLayer.Views
             InitializeComponent();
 
             ContentControl.Content = userControl;
-        }       
+
+            
+        }
+
     }
 }

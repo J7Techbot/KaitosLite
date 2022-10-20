@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using ViewLayer.Shared;
 using ViewLayer.Views;
 using ViewLayer.Views.UserControls;
@@ -38,8 +40,14 @@ namespace ViewLayer.ViewModels
         private ModuleOrderDTO[] _modules;
         public ObservableCollection<ModuleOrderDTO> ModulesOrderCollection { get; set; }
 
+        DispatcherTimer _resizeTimer;
+        Window _movedWindow;
+
         public DockerViewModel()
         {
+            _resizeTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 1500), IsEnabled = false };
+            _resizeTimer.Tick += SavePositionToConf;
+
             PopUpModuleCommand = new RelayCommand(param => this.OnPopUpOpen(param), param => true);
             ModuleOrderCommand = new RelayCommand(param => this.OnModuleOrder(), param => true);
             SaveOrderCommand = new RelayCommand(param => this.OnSaveOrder(), param => true);
@@ -167,12 +175,35 @@ namespace ViewLayer.ViewModels
             var userControl = (BaseUserControl)Application.Current.Resources[xKey];
             userControl.XKeyIdent = xKey;
 
+            //call some kind of window manager a give him PopUpClose and LocationChanged delegate() for subscribe
             PopUpWindow popUpWindow = new PopUpWindow(userControl);
             popUpWindow.Closing += PopUpClose;
+            popUpWindow.LocationChanged += PopUpLocationChanged;
             popUpWindow.Show();
-
+            
             ModulesOrderCollection.Remove(ModulesOrderCollection.First(x => x.XKey == xKey));
         }
+
+        private void PopUpLocationChanged(object sender, EventArgs e)
+        {
+            _movedWindow = (Window)sender;
+            _resizeTimer.IsEnabled = true;
+            _resizeTimer.Stop();
+            _resizeTimer.Start();
+        }
+
+        void SavePositionToConf(object sender, EventArgs e)
+        {
+            _resizeTimer.IsEnabled = false;
+            
+            //edit config
+
+            var h = _movedWindow.Height;
+            var w = _movedWindow.Width;
+            var t = _movedWindow.Top;
+            var l = _movedWindow.Left;
+        }
+
         private void PopUpClose(object sender, CancelEventArgs e)
         {
             BaseUserControl uc = (BaseUserControl)(sender as PopUpWindow).ContentControl.Content;
