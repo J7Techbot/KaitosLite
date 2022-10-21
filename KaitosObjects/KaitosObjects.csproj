@@ -60,6 +60,7 @@
     <Compile Include="DTOs\PageDTO.cs" />
     <Compile Include="DTOs\ProjectDTO.cs" />
     <Compile Include="DTOs\ScanDTO.cs" />
+    <Compile Include="DTOs\WindowPositionDTO.cs" />
     <Compile Include="Enums\ComponentType.cs" />
     <Compile Include="Enums\ModuleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

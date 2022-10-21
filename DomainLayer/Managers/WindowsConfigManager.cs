@@ -1,4 +1,5 @@
-﻿using KaitosObjects.Enums;
+﻿using KaitosObjects.DTOs;
+using KaitosObjects.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,7 +64,7 @@ namespace DomainLayer.Managers
 
             return (ComponentType)Enum.Parse(typeof(ComponentType), panel.component);
         }
-        public void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value,bool detached = false)
+        public void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value, bool detached = false)
         {
             object source = module.Panels.First(x => x.component.Equals(_xKey.ToString()));
 
@@ -72,6 +73,18 @@ namespace DomainLayer.Managers
 
             var prop = source.GetType().GetProperty(propertyName);
             prop.SetValue(source, value);
+        }
+
+        //TODO:Need rwork
+        public void UpdateOrder(SModule module, ComponentType _xKey, object value)
+        {
+            if ((int)value == 1)
+            {
+                module.Panels.First(x => x.order == 1).order = 2;
+                UpdateSettings(module, _xKey, "order", value, false);
+            }
+            else
+                UpdateSettings(module, _xKey, "order", value, false);
         }
         public object ReturnValue(SModule module, ComponentType _xKey, string propertyName, bool detached = false)
         {
@@ -82,6 +95,15 @@ namespace DomainLayer.Managers
 
             var prop = source.GetType().GetProperty(propertyName);
             return prop.GetValue(source);
+        }
+        public WindowPositionDTO ReturnWindowPosition(SModule module, ComponentType xKey)
+        {
+            var h = (double)ReturnValue(module, xKey, "height", detached: true);
+            var w = (double)ReturnValue(module, xKey, "width", detached: true);
+            var t = (double)ReturnValue(module, xKey, "Y", detached: true);
+            var l = (double)ReturnValue(module, xKey, "X", detached: true);
+
+            return new WindowPositionDTO() { Height = h, Width = w, Top = t, Left = l };
         }
         private string GetPathToConfig()
         {

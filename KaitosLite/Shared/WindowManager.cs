@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaitosObjects.DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -45,13 +46,19 @@ namespace ViewLayer.Managers
             //var window = serviceProvider.GetRequiredService<T>();
             //...
         }
-        public void ShowPopUp(BaseUserControl userControl, Action<object, CancelEventArgs> onCloseEvent, Action<object, EventArgs> onLocationChangedEvent)
+        public void ShowPopUp(BaseUserControl userControl, Action<object, CancelEventArgs> onCloseEvent, Action<object, EventArgs> onLocationChangedEvent,
+            WindowPositionDTO windowPositionDTO)
         { 
             PopUpWindow newWindow = new PopUpWindow(userControl);
             newWindow.Closing += new CancelEventHandler(onCloseEvent);
             newWindow.LocationChanged += new EventHandler(onLocationChangedEvent);
             newWindow.SizeChanged += new SizeChangedEventHandler(onLocationChangedEvent);
             newWindow.Show();
+
+            newWindow.Left = windowPositionDTO.Left;
+            newWindow.Top = windowPositionDTO.Top;
+            newWindow.Height = windowPositionDTO.Height;
+            newWindow.Width = windowPositionDTO.Width;
 
         }
     }

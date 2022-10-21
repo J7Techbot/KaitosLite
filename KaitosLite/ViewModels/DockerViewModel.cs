@@ -239,7 +239,9 @@ namespace ViewLayer.ViewModels
             var userControl = (BaseUserControl)Application.Current.Resources[xKey.ToString()];
             userControl.XKeyIdent = xKey;
 
-            _windowManager.ShowPopUp(userControl, OnPopUpClose, PopUpSizeLocationChanged);
+            var windowPositions =_configManager.ReturnWindowPosition(_moduleSettings,xKey);
+
+            _windowManager.ShowPopUp(userControl, OnPopUpClose, PopUpSizeLocationChanged, windowPositions);
 
             ComponentsOrderCollection.Remove(ComponentsOrderCollection.First(x => x.XKey == xKey));
         }
@@ -253,7 +255,9 @@ namespace ViewLayer.ViewModels
                 IsColumn1Visible = true;
                 Application.Current.Resources["Component1"] = Application.Current.Resources[uc.XKeyIdent.ToString()];
 
-                _configManager.UpdateSettings(_moduleSettings, _xKey1, "detached", false);                
+                _configManager.UpdateSettings(_moduleSettings, _xKey1, "detached",value: false);
+                _configManager.UpdateOrder(_moduleSettings, _xKey1,value: 1);
+  
             }
             else if (!IsColumn2Visible)
             {
@@ -261,7 +265,8 @@ namespace ViewLayer.ViewModels
                 IsColumn2Visible = true;
                 Application.Current.Resources["Component2"] = Application.Current.Resources[uc.XKeyIdent.ToString()];
 
-                _configManager.UpdateSettings(_moduleSettings, _xKey2, "detached", false);
+                _configManager.UpdateSettings(_moduleSettings, _xKey2, "detached", value: false);
+                _configManager.UpdateOrder(_moduleSettings, _xKey2, value: 2);
             }
 
             SortModuleOrderCollection();
