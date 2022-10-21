@@ -22,7 +22,7 @@
             VerticalAlignment="Center"
             dd:DragDrop.IsDragSource="True"
             dd:DragDrop.IsDropTarget="True"
-            ItemsSource="{Binding ModulesOrderCollection}">
+            ItemsSource="{Binding ComponentsOrderCollection}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

@@ -7,8 +7,10 @@
     xmlns:local="clr-namespace:KaitosLite"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
-    Width="800"
-    Height="450"
+    Width="1024"
+    Height="768"
+    MinWidth="1024"
+    MinHeight="768"
     mc:Ignorable="d">
 
     <Grid>
@@ -23,62 +25,80 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-               
+            <ColumnDefinition Width="*" />
+
 
         </Grid.ColumnDefinitions>
-        <TabControl TabStripPlacement="Left" Margin="5,10 15, 10" Grid.Column="0" Grid.RowSpan="7">
-            <TabItem Name="fontweight" Header="FontWeight" Height="50" Width="100">
-                <TabItem.Content>
-                    <TextBlock TextWrapping="WrapWithOverflow" Text="tt" />
+        <TabControl
+            Grid.RowSpan="7"
+            Grid.Column="0"
+            Margin="5,10,15,10"
+            TabStripPlacement="Left"
+            SelectedIndex="{Binding TabSelectedIndex}">
 
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="Projekty">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem Name="fontsize" Header="FontSize">
-                <!--<TabItem.Content>
-                    
-                </TabItem.Content>-->
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="Skeny">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
             </TabItem>
+
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="Strany">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="Struktura">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="OCR">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="Export">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Width="100"
+                Height="50"
+                Header="Protokol">
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
         </TabControl>
-        <!--<Button
-            Grid.Row="0"
-            Margin="5"
-            Content="Projekt" />
-        <Button
-            Grid.Row="1"
-            Margin="5"
-            Content="Skeny" />
-        <Button
-            Grid.Row="2"
-            Margin="5"
-            Content="Strany" />
-        <Button
-            Grid.Row="3"
-            Margin="5"
-            Content="Struktura" />
-        <Button
-            Grid.Row="4"
-            Margin="5"
-            Content="OCR" />
-        <Button
-            Grid.Row="5"
-            Margin="5"
-            Content="Export" />
-        <Button
-            Grid.Row="6"
-            Margin="5"
-            Content="Protokol" />-->
-
-
-        <!--<GroupBox
-            HorizontalAlignment="Left"
-            Grid.RowSpan="7"
-            Grid.Column="1"
-            Margin="110,20,10,0"
-            Header="Modules">
-
-        </GroupBox>-->
-
     </Grid>
 </Window>

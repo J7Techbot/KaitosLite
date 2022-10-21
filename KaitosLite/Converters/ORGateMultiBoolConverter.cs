@@ -13,9 +13,13 @@ namespace ViewLayer.Converters
         {
             for (int i = 0; i < values.Length; i++)
             {
-                var value = (bool)values[i];
-                if (value)
-                    return true;
+                if (values[i] is bool)
+                {
+                    var value = (bool)values[i];
+                    if (value)
+                        return true;
+                }
+                
             }
 
             return false;

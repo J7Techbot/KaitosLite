@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaitosObjects.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,11 @@ namespace ViewLayer.Views.UserControls
 {
     public class BaseUserControl : UserControl
     {
-        public static readonly DependencyProperty XKeyIdentProperty = DependencyProperty.Register("XKeyIdent", typeof(string), typeof(BaseUserControl));
+        public static readonly DependencyProperty XKeyIdentProperty = DependencyProperty.Register("XKeyIdent", typeof(ComponentType), typeof(BaseUserControl));
 
-        public string XKeyIdent
+        public ComponentType XKeyIdent
         {
-            get => (string)GetValue(XKeyIdentProperty);
+            get => (ComponentType)GetValue(XKeyIdentProperty);
             set => SetValue(XKeyIdentProperty, value);
         }
 

@@ -10,22 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewLayer.ViewModels;
 
-namespace ViewLayer.Views
+namespace ViewLayer.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for DockerWindow.xaml
+    /// Interaction logic for StructureUC.xaml
     /// </summary>
-    public partial class DockerUC : UserControl
+    public partial class StructureUC : BaseUserControl
     {
-        public DockerUC()
+        public StructureUC()
         {
-            //INJECT
-            DataContext = new DockerViewModel();
-
             InitializeComponent();
-        }       
+        }
     }
 }

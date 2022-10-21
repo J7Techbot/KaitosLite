@@ -12,19 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewLayer.ViewModels;
 
-namespace ViewLayer.Views
+namespace ViewLayer.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ImagesUC.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ImagesUC : BaseUserControl
     {
-        public MainWindow(MainViewModel vm)
+        public ImagesUC()
         {
-            DataContext = vm;
             InitializeComponent();
-        }        
+        }
     }
 }

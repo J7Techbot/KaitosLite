@@ -1,1 +1,90 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<ModuleSettings version="1.0.23">
+	<module id="0">				
+		<panel component="projectComp" order="0" width="*" detached="false">			
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="modsComp" order="1" width="*" detached="false">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+
+		<panel component="pagesComp" order="2" width="*" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+	</module>
+	
+	<module id="1">
+		<panel component="structureComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+		<panel component="pagesComp" order="2" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+	</module>
+
+	<module id="2">
+		<panel component="structureComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+		
+	</module>
+
+	<module id="3">
+		<panel component="projectComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+
+	</module>
+	<module id="4">
+		<panel component="modsComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+
+	</module>
+	<module id="5">
+		<panel component="projectComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+
+	</module>
+	<module id="6">
+		<panel component="modsComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+
+	</module>
+	<module id="7">
+		<panel component="projectComp" order="0" width="0.6" detached="false">
+			<detachedWindow X="0" Y="0" width="500" height="300"/>
+		</panel>
+
+		<panel component="imagesComp" order="1" width="0" detached="true">
+			<detachedWindow X="1200" Y="20" width="800" height="500"/>
+		</panel>
+
+	</module>
+</ModuleSettings>

@@ -7,9 +7,11 @@
     Startup="OnStartup">
 
     <Application.Resources>
-        <UC:ProjectUC x:Key="ProjectUC" />
-        <UC:ModsUC x:Key="ModsUC" />
-        <UC:PagesUC x:Key="PagesUC" />
+        <UC:ProjectUC x:Key="projectComp" />
+        <UC:ModsUC x:Key="modsComp" />
+        <UC:PagesUC x:Key="pagesComp" />
+        <UC:StructureUC x:Key="structureComp"/>
+        <UC:ImagesUC x:Key="imagesComp"/>
         <UC:BaseUserControl x:Key="ClearControl" />
     </Application.Resources>
 </Application>

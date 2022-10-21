@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaitosObjects.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace KaitosObjects.DTOs
 {
-    public class ModuleOrderDTO
+    public class ComponentsOrderDTO
     {
         public string Name { get; set; }
-        public string XKey { get; set; }
+        public ComponentType XKey { get; set; }
 
     }
 }
