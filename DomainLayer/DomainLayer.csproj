@@ -61,6 +61,7 @@
     <Compile Include="Managers\PageManager.cs" />
     <Compile Include="Managers\ProjectManager.cs" />
     <Compile Include="Managers\ScanManager.cs" />
+    <Compile Include="Managers\WindowsConfigManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resource\WindowsConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

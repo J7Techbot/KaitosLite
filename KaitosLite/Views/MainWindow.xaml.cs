@@ -25,12 +25,6 @@ namespace ViewLayer.Views
         {
             DataContext = new MainViewModel();
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DockerWindow win = new DockerWindow();
-            win.Show();
-        }
+        }        
     }
 }

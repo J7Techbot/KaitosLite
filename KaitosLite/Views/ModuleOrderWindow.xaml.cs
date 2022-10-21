@@ -20,11 +20,10 @@ namespace ViewLayer.Views
     /// </summary>
     public partial class ModuleOrderWindow : Window
     {
-        public ModuleOrderWindow(BaseViewModel baseViewModel)
+        public ModuleOrderWindow()
         {
-            DataContext = baseViewModel;
             InitializeComponent();
-        }        
+        }          
     }
 }
 

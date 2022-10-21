@@ -1,4 +1,5 @@
-﻿using GongSolutions.Wpf.DragDrop;
+﻿using DomainLayer.Managers;
+using GongSolutions.Wpf.DragDrop;
 using KaitosObjects.DTOs;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using ViewLayer.Managers;
 using ViewLayer.Shared;
 using ViewLayer.Views;
 using ViewLayer.Views.UserControls;
@@ -40,11 +42,15 @@ namespace ViewLayer.ViewModels
         private ModuleOrderDTO[] _modules;
         public ObservableCollection<ModuleOrderDTO> ModulesOrderCollection { get; set; }
 
+        WindowsConfigManager _configManager;
+        WindowManager _windowManager;
         DispatcherTimer _resizeTimer;
-        Window _movedWindow;
+        PopUpWindow _movedWindow;
 
         public DockerViewModel()
         {
+            _windowManager = new WindowManager();
+
             _resizeTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 1500), IsEnabled = false };
             _resizeTimer.Tick += SavePositionToConf;
 
@@ -114,8 +120,7 @@ namespace ViewLayer.ViewModels
 
         private void OnModuleOrder()
         {
-            ModuleOrderWindow moduleOrderWindow = new ModuleOrderWindow(this);
-            moduleOrderWindow.Show();
+            _windowManager.Show<ModuleOrderWindow>(this);
         }
        
         private void OnPopUpOpen(object param)
@@ -175,18 +180,14 @@ namespace ViewLayer.ViewModels
             var userControl = (BaseUserControl)Application.Current.Resources[xKey];
             userControl.XKeyIdent = xKey;
 
-            //call some kind of window manager a give him PopUpClose and LocationChanged delegate() for subscribe
-            PopUpWindow popUpWindow = new PopUpWindow(userControl);
-            popUpWindow.Closing += PopUpClose;
-            popUpWindow.LocationChanged += PopUpLocationChanged;
-            popUpWindow.Show();
-            
+            _windowManager.ShowPopUp(userControl, PopUpClose, PopUpSizeLocationChanged);
+           
             ModulesOrderCollection.Remove(ModulesOrderCollection.First(x => x.XKey == xKey));
         }
 
-        private void PopUpLocationChanged(object sender, EventArgs e)
+        private void PopUpSizeLocationChanged(object sender, EventArgs e)
         {
-            _movedWindow = (Window)sender;
+            _movedWindow = (PopUpWindow)sender;
             _resizeTimer.IsEnabled = true;
             _resizeTimer.Stop();
             _resizeTimer.Start();
@@ -195,9 +196,9 @@ namespace ViewLayer.ViewModels
         void SavePositionToConf(object sender, EventArgs e)
         {
             _resizeTimer.IsEnabled = false;
-            
-            //edit config
 
+            //TODO:save position/size to config
+            var popUpXKey = ((BaseUserControl)_movedWindow.ContentControl.Content).XKeyIdent;
             var h = _movedWindow.Height;
             var w = _movedWindow.Width;
             var t = _movedWindow.Top;

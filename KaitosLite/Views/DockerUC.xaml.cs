@@ -18,9 +18,9 @@ namespace ViewLayer.Views
     /// <summary>
     /// Interaction logic for DockerWindow.xaml
     /// </summary>
-    public partial class DockerWindow : Window
+    public partial class DockerUC : UserControl
     {
-        public DockerWindow()
+        public DockerUC()
         {
             //INJECT
             DataContext = new DockerViewModel();

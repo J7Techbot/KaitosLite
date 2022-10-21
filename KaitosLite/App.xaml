@@ -1,15 +1,15 @@
 ﻿<Application
-    x:Class="ViewLayer.App"
+    x:Class="KaitosLite.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:UC="clr-namespace:ViewLayer.Views.UserControls"
     xmlns:local="clr-namespace:KaitosLite"
-    StartupUri="Views/DockerWindow.xaml">
+    Startup="OnStartup">
 
     <Application.Resources>
         <UC:ProjectUC x:Key="ProjectUC" />
         <UC:ModsUC x:Key="ModsUC" />
         <UC:PagesUC x:Key="PagesUC" />
-        <UC:BaseUserControl x:Key="ClearControl"/>
+        <UC:BaseUserControl x:Key="ClearControl" />
     </Application.Resources>
 </Application>
