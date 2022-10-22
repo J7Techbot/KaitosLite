@@ -7,11 +7,23 @@
     Startup="OnStartup">
 
     <Application.Resources>
-        <UC:ProjectUC x:Key="projectComp" />
-        <UC:ModsUC x:Key="modsComp" />
-        <UC:PagesUC x:Key="pagesComp" />
-        <UC:StructureUC x:Key="structureComp"/>
-        <UC:ImagesUC x:Key="imagesComp"/>
-        <UC:BaseUserControl x:Key="ClearControl" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Name="ThemeDictionary">
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="Resource/Styles/CustomStyle.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <UC:ProjectUC x:Key="projectComp" />
+            <UC:ModsUC x:Key="modsComp" />
+            <UC:PagesUC x:Key="pagesComp" />
+            <UC:StructureUC x:Key="structureComp"/>
+            <UC:ImagesUC x:Key="imagesComp"/>
+            <UC:BaseUserControl x:Key="ClearControl" />
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -17,7 +17,7 @@ using ViewLayer.Managers;
 using ViewLayer.Shared;
 using ViewLayer.Views;
 using ViewLayer.Views.UserControls;
-using static DomainLayer.Managers.WindowsConfigManager;
+using static DomainLayer.Managers.ConfigManager;
 
 namespace ViewLayer.ViewModels
 {
@@ -55,13 +55,13 @@ namespace ViewLayer.ViewModels
         
 
         ComponentsManager _moduleManager;
-        WindowsConfigManager _configManager;
+        ConfigManager _configManager;
         WindowManager _windowManager;
         SModule _moduleSettings;
         DispatcherTimer _resizeTimer;
         PopUpWindow _movedWindow;
 
-        public DockerViewModel(ComponentsManager moduleManager, WindowManager windowManager, WindowsConfigManager windowsConfigManager)
+        public DockerViewModel(ComponentsManager moduleManager, WindowManager windowManager, ConfigManager windowsConfigManager)
         {
             _windowManager = windowManager;
             _moduleManager = moduleManager;

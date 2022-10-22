@@ -11,7 +11,9 @@
     Height="768"
     MinWidth="1024"
     MinHeight="768"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    
+    Style="{DynamicResource WindowStyle}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,12 +36,105 @@
             Grid.Column="0"
             Margin="5,10,15,10"
             TabStripPlacement="Left"
-            SelectedIndex="{Binding TabSelectedIndex}">
+            SelectedIndex="{Binding TabSelectedIndex}"
+            Style="{DynamicResource TabControlStyle}">
+
+            <TabItem                
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Projekty" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
 
             <TabItem
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Skeny" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem                
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="Strany" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="Struktura" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem                
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="OCR" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="Export" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem
+                Style="{DynamicResource SpacedTab}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="Protokol" VerticalAlignment="Center"></TextBlock>
+                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                </TabItem.Content>
+            </TabItem>
+
+            <!--<TabItem
                 Width="100"
-                Height="50"
-                Header="Projekty">
+                Height="100"
+                Header="Strany"
+                Style="{StaticResource SpacedTab}">
                 <TabItem.Content>
                     <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
@@ -47,8 +142,9 @@
 
             <TabItem
                 Width="100"
-                Height="50"
-                Header="Skeny">
+                Height="100"
+                Header="Struktura"
+                Style="{StaticResource SpacedTab}">
                 <TabItem.Content>
                     <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
@@ -56,8 +152,9 @@
 
             <TabItem
                 Width="100"
-                Height="50"
-                Header="Strany">
+                Height="100"
+                Header="OCR"
+                Style="{StaticResource SpacedTab}">
                 <TabItem.Content>
                     <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
@@ -65,8 +162,9 @@
 
             <TabItem
                 Width="100"
-                Height="50"
-                Header="Struktura">
+                Height="100"
+                Header="Export"
+                Style="{StaticResource SpacedTab}">
                 <TabItem.Content>
                     <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
@@ -74,31 +172,21 @@
 
             <TabItem
                 Width="100"
-                Height="50"
-                Header="OCR">
+                Height="100"
+                Header="Protokol"
+                Style="{StaticResource SpacedTab}">
                 <TabItem.Content>
                     <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
-            </TabItem>
-
-            <TabItem
-                Width="100"
-                Height="50"
-                Header="Export">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem
-                Width="100"
-                Height="50"
-                Header="Protokol">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>
+            </TabItem>-->
 
         </TabControl>
+        <Button Content="ChangeTheme"
+                Command="{Binding ChangeThemeCommand}"
+                Grid.Row="8"
+                Width="80"
+                Height="25"
+                HorizontalAlignment="Left"
+                Margin="20"></Button>
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using DomainLayer.DomainServices;
 using DomainLayer.Managers;
+using KaitosLite;
 using KaitosObjects.DTOs;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,11 @@ using ViewLayer.Shared;
 namespace ViewLayer.ViewModels
 {
     public class MainViewModel : BaseViewModel
-    {
+    {        
         public RelayCommand GenerateCommand { get; set; }
+        public RelayCommand ChangeThemeCommand { get; set; }
         private GenerateModule _generateModule;
+        private ConfigManager _configManager;
 
         private int tabSelectedIndex;
         public int TabSelectedIndex
@@ -31,19 +34,16 @@ namespace ViewLayer.ViewModels
                 }
             }
         }
-
-        private void TabChanged(int tab)
-        {
-            DockerViewModel.Init(tab);
-        }
-
+       
         private DockerViewModel dockerViewModel;
         public DockerViewModel DockerViewModel { get => dockerViewModel; set { dockerViewModel = value; OnPropertyChanged(); } }
 
-        public MainViewModel(DockerViewModel dockerViewModel)
+        public MainViewModel(DockerViewModel dockerViewModel,ConfigManager configManager)
         {
+            _configManager = configManager;
             DockerViewModel = dockerViewModel;
 
+            ChangeThemeCommand = new RelayCommand(param => this.OnChangeTheme(), param => true);
 
             #region DomainService
             GenerateCommand = new RelayCommand(param => this.OnGenerate(), param => true);
@@ -55,7 +55,16 @@ namespace ViewLayer.ViewModels
             #endregion
         }
 
+        private void OnChangeTheme()
+        {
+            var app = (App)Application.Current;
+            app.ChangeTheme(new Uri(_configManager.SwitchedTheme, UriKind.RelativeOrAbsolute));
+        }
 
+        private void TabChanged(int tab)
+        {
+            DockerViewModel.Init(tab);
+        }
 
 
         #region DomainService

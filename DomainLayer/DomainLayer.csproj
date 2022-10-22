@@ -62,7 +62,7 @@
     <Compile Include="Managers\PageManager.cs" />
     <Compile Include="Managers\ProjectManager.cs" />
     <Compile Include="Managers\ScanManager.cs" />
-    <Compile Include="Managers\WindowsConfigManager.cs" />
+    <Compile Include="Managers\ConfigManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

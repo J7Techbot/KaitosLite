@@ -39,7 +39,7 @@ namespace KaitosLite
             services.AddSingleton<PageManager>();
             services.AddSingleton<ModsManager>();
             services.AddSingleton<ProjectManager>();
-            services.AddSingleton<WindowsConfigManager>();
+            services.AddSingleton<ConfigManager>();
 
             //ViewModels
             services.AddSingleton<DockerViewModel>();
@@ -57,5 +57,16 @@ namespace KaitosLite
            
             //navigationService.Show<MainWindow>();
         }
+        public ResourceDictionary ThemeDictionary
+        {
+            get { return Resources.MergedDictionaries[0]; }
+        }
+
+        public void ChangeTheme(Uri uri)
+        {
+            ThemeDictionary.MergedDictionaries.Clear();
+            ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+        }
+
     }
 }

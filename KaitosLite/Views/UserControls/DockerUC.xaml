@@ -146,7 +146,8 @@
                 Command="{Binding PopUpModuleCommand}"
                 CommandParameter="0"
                 Content="X"
-                Visibility="{Binding IsColumn0Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding IsColumn0Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn1Visible" />
@@ -159,7 +160,8 @@
                 Height="20"
                 Command="{Binding ModuleOrderCommand}"
                 Content="P"
-                Visibility="{Binding IsColumn0Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding IsColumn0Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn1Visible" />
@@ -187,7 +189,8 @@
                 Command="{Binding PopUpModuleCommand}"
                 CommandParameter="1"
                 Content="X"
-                Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn0Visible" />
@@ -200,7 +203,8 @@
                 Height="20"
                 Command="{Binding ModuleOrderCommand}"
                 Content="P"
-                Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn0Visible" />
@@ -228,7 +232,8 @@
                 Command="{Binding PopUpModuleCommand}"
                 CommandParameter="2"
                 Content="X"
-                Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn0Visible" />
@@ -241,7 +246,8 @@
                 Height="20"
                 Command="{Binding ModuleOrderCommand}"
                 Content="P"
-                Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn0Visible" />

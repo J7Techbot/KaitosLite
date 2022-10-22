@@ -13,8 +13,31 @@ using System.Xml.Serialization;
 
 namespace DomainLayer.Managers
 {
-    public class WindowsConfigManager
+    public class ConfigManager
     {
+        public string Theme1Uri { get; } = "pack://application:,,,/Resource/Styles/CustomStyle.xaml";
+        public string Theme2Uri { get; } = "pack://application:,,,/Resource/Styles/CustomStyle2.xaml";
+
+        //just for debug
+        bool themeSwitch;
+        public string SwitchedTheme
+        {
+            get
+            {
+                if (themeSwitch)
+                {
+                    themeSwitch = false;
+                    return Theme1Uri;
+                }
+                else
+                {
+                    themeSwitch = true;
+                    return Theme2Uri;
+                }                                    
+            }
+        }
+       
+
         SModule _moduleSettings;
         public SModule LoadFromConfig(int moduleType)
         {
