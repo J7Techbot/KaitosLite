@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,12 @@ namespace ViewLayer.Views
         {
             DataContext = vm;
             InitializeComponent();
-        }        
+            Closing += OnClosing;
+        } 
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            Application curApp = Application.Current;
+            curApp.Shutdown();
+        }
     }
 }

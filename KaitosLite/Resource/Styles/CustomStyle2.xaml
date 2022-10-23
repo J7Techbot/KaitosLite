@@ -13,6 +13,10 @@
     <Style TargetType="{x:Type DataGrid}" x:Key="DatagridStyle" BasedOn="{StaticResource ControlStyle}">
         <Setter Property="Background" Value="white" />
     </Style>
+    <Style TargetType="{x:Type GridSplitter}" x:Key="GridSplitterStyle" BasedOn="{StaticResource ControlStyle}">
+        <Setter Property="Background" Value="Red" />
+        <Setter Property="Width" Value="2" />
+    </Style>
     <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource ControlStyle}">
         <Setter Property="Background" Value="#373737" />
         <Setter Property="Foreground" Value="White" />

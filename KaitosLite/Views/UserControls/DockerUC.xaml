@@ -101,10 +101,9 @@
 
         <GridSplitter
             Grid.RowSpan="2"
-            Grid.Column="0"
-            Width="5"
-            Background="BurlyWood"
-            ResizeBehavior="CurrentAndNext">
+            Grid.Column="0"          
+            ResizeBehavior="CurrentAndNext"
+            Style="{DynamicResource GridSplitterStyle}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DragCompleted">
                     <i:InvokeCommandAction Command="{Binding SplitterDragEndCommand, UpdateSourceTrigger=PropertyChanged}" />
@@ -119,9 +118,8 @@
         <GridSplitter
             Grid.RowSpan="2"
             Grid.Column="1"
-            Width="5"
-            Background="BurlyWood"
-            ResizeBehavior="CurrentAndNext">
+            ResizeBehavior="CurrentAndNext"
+            Style="{DynamicResource GridSplitterStyle}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="DragCompleted">
                     <i:InvokeCommandAction Command="{Binding SplitterDragEndCommand, UpdateSourceTrigger=PropertyChanged}" />

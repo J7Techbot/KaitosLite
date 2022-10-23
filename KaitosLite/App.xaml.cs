@@ -8,7 +8,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using ViewLayer.Managers;
 using ViewLayer.Shared;
 using ViewLayer.ViewModels;
 using ViewLayer.Views;
@@ -47,6 +46,14 @@ namespace KaitosLite
 
             //Windows
             services.AddSingleton<MainWindow>();
+
+            //User controls
+            services.AddSingleton<UserControlManager>();
+            services.AddSingleton<ProjectUC>();
+            services.AddSingleton<PagesUC>();
+            services.AddSingleton<ModsUC>();
+            services.AddSingleton<StructureUC>();
+            services.AddSingleton<ImagesUC>();
 
         }
         private void OnStartup(object sender, StartupEventArgs e)

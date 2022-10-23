@@ -17,12 +17,12 @@
             </ResourceDictionary.MergedDictionaries>
 
 
-            <UC:ProjectUC x:Key="projectComp" />
-            <UC:ModsUC x:Key="modsComp" />
-            <UC:PagesUC x:Key="pagesComp" />
-            <UC:StructureUC x:Key="structureComp"/>
-            <UC:ImagesUC x:Key="imagesComp"/>
-            <UC:BaseUserControl x:Key="ClearControl" />
+            <!--<UC:ProjectUC x:Key="projectComp" XKeyIdent="projectComp" />
+            <UC:ModsUC x:Key="modsComp" XKeyIdent ="modsComp"/>
+            <UC:PagesUC x:Key="pagesComp" XKeyIdent="pagesComp"/>
+            <UC:StructureUC x:Key="structureComp" XKeyIdent="structureComp"/>
+            <UC:ImagesUC x:Key="imagesComp" XKeyIdent="imagesComp"/>-->
+            <UC:BaseUserControl x:Key="ClearControl" XKeyIdent ="notSet"/>
             
         </ResourceDictionary>
     </Application.Resources>

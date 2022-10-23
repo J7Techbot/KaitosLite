@@ -33,12 +33,10 @@ namespace DomainLayer.Managers
                 {
                     themeSwitch = true;
                     return Theme2Uri;
-                }                                    
+                }
             }
         }
-       
 
-        SModule _moduleSettings;
         public SModule LoadFromConfig(int moduleType)
         {
             var settings = DeserializeObject(GetPathToConfig());
@@ -55,30 +53,7 @@ namespace DomainLayer.Managers
 
             SerializeObject(settings);
         }
-        private void SerializeObject(ModuleSettings settings)
-        {
-            XmlSerializer ser = new XmlSerializer(typeof(ModuleSettings));
-            TextWriter writer = new StreamWriter(GetPathToConfig());
-            ser.Serialize(writer, settings);
-            writer.Close();
-        }
-        private ModuleSettings DeserializeObject(string filename)
-        {
-            if (File.Exists(filename))
-            {
-                XmlSerializer serializer =
-            new XmlSerializer(typeof(ModuleSettings), new XmlRootAttribute("ModuleSettings"));
 
-                ModuleSettings i;
-
-                using (Stream reader = new FileStream(filename, FileMode.Open))
-                {
-                    i = (ModuleSettings)serializer.Deserialize(reader);
-                    return i;
-                }
-            }
-            return null;
-        }
         public ComponentType ReturnXKey(SModule module, int order)
         {
             var panel = module.Panels.FirstOrDefault(x => x.order == order);
@@ -87,27 +62,33 @@ namespace DomainLayer.Managers
 
             return (ComponentType)Enum.Parse(typeof(ComponentType), panel.component);
         }
-        public void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value, bool detached = false)
+        public void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value, bool detachedWindowProp = false)
         {
             object source = module.Panels.First(x => x.component.Equals(_xKey.ToString()));
 
-            if (detached)
+            if (detachedWindowProp)
                 source = module.Panels.First(x => x.component.Equals(_xKey.ToString())).detachedWindow;
 
             var prop = source.GetType().GetProperty(propertyName);
             prop.SetValue(source, value);
+
         }
 
         //TODO:Need rwork
         public void UpdateOrder(SModule module, ComponentType _xKey, object value)
         {
-            if ((int)value == 1)
+            UpdateSettings(module, _xKey, "order", value);
+
+            var detached = module.Panels.Where(x => x.detached == true);
+            var attachedLastOrder = module.Panels.Where(x => !x.detached).OrderByDescending(x => x.order).First().order;
+            if (detached.Count() > 1)
             {
-                module.Panels.First(x => x.order == 1).order = 2;
-                UpdateSettings(module, _xKey, "order", value, false);
+                foreach (var panel in detached)
+                {
+                    panel.order = attachedLastOrder + 1;
+                    attachedLastOrder++;
+                }
             }
-            else
-                UpdateSettings(module, _xKey, "order", value, false);
         }
         public object ReturnValue(SModule module, ComponentType _xKey, string propertyName, bool detached = false)
         {
@@ -134,7 +115,45 @@ namespace DomainLayer.Managers
             return Path.Combine(path, "Resource/WindowsConfig.xml");
         }
 
+        private void SerializeObject(ModuleSettings settings)
+        {
+            XmlSerializer ser = new XmlSerializer(typeof(ModuleSettings));
+            TextWriter writer = new StreamWriter(GetPathToConfig());
+            try
+            {
+                ser.Serialize(writer, settings);
+                writer.Close();
+            }
+            catch
+            {
+                throw new IOException("Nepodařilo se uložit konfigurační soubor.");
+            }
 
+        }
+        private ModuleSettings DeserializeObject(string filename)
+        {
+            if (File.Exists(filename))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(ModuleSettings), new XmlRootAttribute("ModuleSettings"));
+
+                ModuleSettings settings;
+
+                using (Stream reader = new FileStream(filename, FileMode.Open))
+                {
+                    try
+                    {
+                        settings = (ModuleSettings)serializer.Deserialize(reader);
+                    }
+                    catch
+                    {
+                        throw new IOException("Nepodařilo se načíst konfigurační soubor.");
+                    }
+
+                    return settings;
+                }
+            }
+            return null;
+        }
         #region Class to serialize
         // NOTE: Generated code may require at least .NET Framework 4.5 or .NET Core/Standard 2.0.
         /// <remarks/>

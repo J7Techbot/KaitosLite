@@ -20,13 +20,11 @@ namespace ViewLayer.Views
     /// <summary>
     /// Interaction logic for PopUpWindow.xaml
     /// </summary>
-    public partial class PopUpWindow : Window
+    public partial class PopUpWindow : BaseWindow
     {
-        public PopUpWindow(BaseUserControl userControl)
+        public PopUpWindow()
         {
-            InitializeComponent();
-
-            ContentControl.Content = userControl;            
+            InitializeComponent();           
         }
     }
 }
