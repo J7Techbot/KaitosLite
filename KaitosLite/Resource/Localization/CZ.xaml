@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="ChangeThemeKey">Změnit barevnou paletu</s:String>
+    <s:String x:Key="ChangeLocalizationKey">Změnit jazyk</s:String>
+    <s:String x:Key="ChangeLocalizationConfirmKey">Opravdu si přejete změnit jazyk?</s:String>
+    <s:String x:Key="Projects">Projekty</s:String>
+    <s:String x:Key="Scans">Skeny</s:String>
+    <s:String x:Key="Pages">Stránky</s:String>
+    <s:String x:Key="Structure">Struktura</s:String>
+    <s:String x:Key="OCR">OCR</s:String>
+    <s:String x:Key="Export">Export</s:String>
+    <s:String x:Key="Protocol">Protokol</s:String>
+</ResourceDictionary>

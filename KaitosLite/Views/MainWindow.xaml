@@ -36,14 +36,14 @@
             Grid.Column="0"
             Margin="5,10,15,10"
             TabStripPlacement="Left"
-            SelectedIndex="{Binding TabSelectedIndex}"
+            SelectedIndex="{Binding TabSelectedIndex ,Mode=OneWayToSource}"
             Style="{DynamicResource TabControlStyle}">
 
             <TabItem                
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Projekty" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource Projects}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -56,7 +56,7 @@
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Skeny" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource Scans}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -69,7 +69,7 @@
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Strany" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource Pages}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -82,7 +82,7 @@
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Struktura" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource Structure}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -95,7 +95,7 @@
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="OCR" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource OCR}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -108,7 +108,7 @@
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Export" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource Export}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -121,7 +121,7 @@
                 Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Protokol" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{DynamicResource Protocol}" VerticalAlignment="Center"></TextBlock>
                         <Image Source="/Resource/Images/terminal.png" Width="30" />
                     </StackPanel>
                 </TabItem.Header>
@@ -129,64 +129,22 @@
                     <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
                 </TabItem.Content>
             </TabItem>
-
-            <!--<TabItem
-                Width="100"
-                Height="100"
-                Header="Strany"
-                Style="{StaticResource SpacedTab}">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem
-                Width="100"
-                Height="100"
-                Header="Struktura"
-                Style="{StaticResource SpacedTab}">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem
-                Width="100"
-                Height="100"
-                Header="OCR"
-                Style="{StaticResource SpacedTab}">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem
-                Width="100"
-                Height="100"
-                Header="Export"
-                Style="{StaticResource SpacedTab}">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem
-                Width="100"
-                Height="100"
-                Header="Protokol"
-                Style="{StaticResource SpacedTab}">
-                <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
-                </TabItem.Content>
-            </TabItem>-->
-
         </TabControl>
-        <Button Content="ChangeTheme"
+        <Button Content="{DynamicResource ChangeThemeKey}"
                 Command="{Binding ChangeThemeCommand}"
                 Grid.Row="8"
-                Width="80"
+                Width="190"
                 Height="25"
                 HorizontalAlignment="Left"
-                Margin="20"></Button>
+                Margin="20"
+                Style="{DynamicResource ButtonStyle}"></Button>
+        <Button Content="{DynamicResource ChangeLocalizationKey}"
+                Command="{Binding ChangeLocalizationCommand}"
+                Grid.Row="8"
+                Width="150"
+                Height="25"
+                HorizontalAlignment="Left"
+                Margin="230,20,20,20"
+                Style="{DynamicResource ButtonStyle}"></Button>
     </Grid>
 </Window>

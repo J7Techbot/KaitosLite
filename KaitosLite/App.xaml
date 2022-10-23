@@ -14,16 +14,12 @@
                         <ResourceDictionary Source="Resource/Styles/CustomStyle.xaml"/>
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
+                <ResourceDictionary x:Name="LocalizationDictionary">
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="Resource/Localization/CZ.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-
-
-            <!--<UC:ProjectUC x:Key="projectComp" XKeyIdent="projectComp" />
-            <UC:ModsUC x:Key="modsComp" XKeyIdent ="modsComp"/>
-            <UC:PagesUC x:Key="pagesComp" XKeyIdent="pagesComp"/>
-            <UC:StructureUC x:Key="structureComp" XKeyIdent="structureComp"/>
-            <UC:ImagesUC x:Key="imagesComp" XKeyIdent="imagesComp"/>-->
-            <UC:BaseUserControl x:Key="ClearControl" XKeyIdent ="notSet"/>
-            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

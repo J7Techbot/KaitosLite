@@ -14,7 +14,7 @@
         <Setter Property="Background" Value="white" />
     </Style>
     <Style TargetType="{x:Type GridSplitter}" x:Key="GridSplitterStyle" BasedOn="{StaticResource ControlStyle}">
-        <Setter Property="Background" Value="Red" />
+        <Setter Property="Background" Value="White" />
         <Setter Property="Width" Value="2" />
     </Style>
     <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource ControlStyle}">
@@ -36,8 +36,70 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#E59400" />
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="Black" />
+
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="OrangeRed" />
                             <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--BUTTON OUT-->
+    <Style TargetType="{x:Type Button}" x:Key="ButtonOutStyle" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="MaxWidth" Value="20" />
+        <Setter Property="MaxHeight" Value="20" />
+        <Setter Property="Background" Value="#373737" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Image Width="20" Source="/Resource/Images/window_out.png" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="Black" />
+
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="OrangeRed" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--BUTTON IN-->
+    <Style TargetType="{x:Type Button}" x:Key="ButtonInStyle" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="MaxWidth" Value="20" />
+        <Setter Property="MaxHeight" Value="20" />
+        <Setter Property="Background" Value="#373737" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Image Width="20" Source="/Resource/Images/window_in.png" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="Black" />
 
                         </Trigger>
 
@@ -56,25 +118,26 @@
             <Setter.Value>
                 <ControlTemplate
                 TargetType="{x:Type TabItem}">
-                    <Border
+                    <!--<Border
                     x:Name="Spacer"
                     Width="100"
                     Height="Auto"
                     Padding="0 5 0 0"
                     Margin="0 0 0 0"
                     BorderBrush="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0">-->
+                    <Grid>
                         <Border
                         x:Name="Border"
-                        MinWidth="70"
-                        MinHeight="70"
+                        MinWidth="30"
+                        MinHeight="30"
                         Height="auto"
-                        Background="Gray"
+                        Background="White"
                         BorderBrush="DarkGray"
                         BorderThickness="0,0,0,4"
-                        CornerRadius="6,0,0,6"
-                        Cursor="Hand">
-                            <ContentPresenter
+                        CornerRadius="0,0,0,0"
+                        Cursor="Hand" >
+                            <ContentPresenter                                
                             x:Name="ContentSite"
                             TextElement.FontSize="10pt"
                             TextElement.FontFamily="Arial"
@@ -85,8 +148,15 @@
                             Margin="8,3,8,3"
                             Width="Auto"
                             Height="Auto" />
-                        </Border>
+                        <!--</Border>-->
                     </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="Gray" />
+                            <Setter Property="Foreground" Value="white"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

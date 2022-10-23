@@ -68,11 +68,21 @@ namespace KaitosLite
         {
             get { return Resources.MergedDictionaries[0]; }
         }
+        public ResourceDictionary Localization
+        {
+            get { return Resources.MergedDictionaries[1]; }
+        }
 
         public void ChangeTheme(Uri uri)
         {
             ThemeDictionary.MergedDictionaries.Clear();
             ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+            
+        }
+        public void ChangeLocalization(Uri uri)
+        {
+            Localization.MergedDictionaries.Clear();
+            Localization.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
         }
 
     }

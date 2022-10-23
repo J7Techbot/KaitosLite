@@ -30,8 +30,10 @@ namespace ViewLayer.Shared
             this.structureUC.XKeyIdent = ComponentType.structureComp;
             this.imagesUC = imagesUC;
             this.imagesUC.XKeyIdent = ComponentType.imagesComp;
+            var clearControl = new BaseUserControl();
+            clearControl.XKeyIdent = ComponentType.notSet;
 
-            _controls = new List<BaseUserControl>() { pagesUC , projectUC , modsUC , structureUC , imagesUC };
+            _controls = new List<BaseUserControl>() { pagesUC , projectUC , modsUC , structureUC , imagesUC, clearControl };
 
         }
 

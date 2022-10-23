@@ -137,22 +137,7 @@
             Margin="0,0,15,0"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
-            <Button
-                Width="20"
-                Height="20"
-                Margin="3"
-                Command="{Binding PopUpModuleCommand}"
-                CommandParameter="0"
-                Content="X"
-                Visibility="{Binding IsColumn0Visible, Converter={StaticResource BoolToVisibilityConverter}}"
-                Style="{DynamicResource ButtonStyle}">
-                <Button.IsEnabled>
-                    <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
-                        <Binding Path="IsColumn1Visible" />
-                        <Binding Path="IsColumn2Visible" />
-                    </MultiBinding>
-                </Button.IsEnabled>
-            </Button>
+           
             <Button
                 Width="20"
                 Height="20"
@@ -167,7 +152,19 @@
                     </MultiBinding>
                 </Button.IsEnabled>
             </Button>
-
+            <Button
+                Margin="3"
+                Command="{Binding PopUpOpenCommand}"
+                CommandParameter="0"
+                Visibility="{Binding IsColumn0Visible, Converter={StaticResource BoolToVisibilityConverter}}"
+                Style="{DynamicResource ButtonOutStyle}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
+                        <Binding Path="IsColumn1Visible" />
+                        <Binding Path="IsColumn2Visible" />
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
         </StackPanel>
         <ContentControl
             Grid.Row="1"
@@ -183,10 +180,8 @@
             <Button
                 Width="20"
                 Height="20"
-                Margin="3"
-                Command="{Binding PopUpModuleCommand}"
-                CommandParameter="1"
-                Content="X"
+                Command="{Binding ModuleOrderCommand}"
+                Content="P"
                 Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}"
                 Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
@@ -199,10 +194,12 @@
             <Button
                 Width="20"
                 Height="20"
-                Command="{Binding ModuleOrderCommand}"
-                Content="P"
+                Margin="3"
+                Command="{Binding PopUpOpenCommand}"
+                CommandParameter="1"
+                Content="X"
                 Visibility="{Binding IsColumn1Visible, Converter={StaticResource BoolToVisibilityConverter}}"
-                Style="{DynamicResource ButtonStyle}">
+                Style="{DynamicResource ButtonOutStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn0Visible" />
@@ -210,6 +207,7 @@
                     </MultiBinding>
                 </Button.IsEnabled>
             </Button>
+            
         </StackPanel>
         <ContentControl
             Grid.Row="1"
@@ -223,13 +221,12 @@
             Margin="0,0,15,0"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
+            
             <Button
                 Width="20"
                 Height="20"
-                Margin="3"
-                Command="{Binding PopUpModuleCommand}"
-                CommandParameter="2"
-                Content="X"
+                Command="{Binding ModuleOrderCommand}"
+                Content="P"
                 Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}"
                 Style="{DynamicResource ButtonStyle}">
                 <Button.IsEnabled>
@@ -242,10 +239,12 @@
             <Button
                 Width="20"
                 Height="20"
-                Command="{Binding ModuleOrderCommand}"
-                Content="P"
+                Margin="3"
+                Command="{Binding PopUpOpenCommand}"
+                CommandParameter="2"
+                Content="X"
                 Visibility="{Binding IsColumn2Visible, Converter={StaticResource BoolToVisibilityConverter}}"
-                Style="{DynamicResource ButtonStyle}">
+                Style="{DynamicResource ButtonOutStyle}">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource ORGateMultiBoolConverter}">
                         <Binding Path="IsColumn0Visible" />

@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ViewLayer.Views"
         mc:Ignorable="d"
-        Title="PopUpWindow" Height="450" Width="800">
+        Title="PopUpWindow" Height="450" Width="800"
+        Style="{DynamicResource PopUpWindowStyle}"
+        x:Name="PopUp">
     <Grid>
-        <ContentControl x:Name="ContentControl" Content="{DynamicResource sharedContent}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button Width="20"
+                Height="20" 
+                Style="{DynamicResource ButtonInStyle}"
+                HorizontalAlignment="Right"
+                Margin="0,5,15,0"
+                Command="{Binding PopUpCloseCommand}"
+                CommandParameter="{Binding ElementName=PopUp}"
+                VerticalAlignment="Top"></Button>
+
+        <ContentControl Margin="15,25,15,15"  x:Name="ContentControl" Content="{DynamicResource sharedContent}" />
     </Grid>
 </local:BaseWindow>

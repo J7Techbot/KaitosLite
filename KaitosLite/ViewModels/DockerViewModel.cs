@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using ViewLayer.Shared;
 using ViewLayer.Views;
@@ -43,7 +44,8 @@ namespace ViewLayer.ViewModels
         private ComponentType _xKey1;
         private ComponentType _xKey2;
 
-        public RelayCommand PopUpModuleCommand { get; set; }
+        public RelayCommand PopUpOpenCommand { get; set; }
+        public RelayCommand PopUpCloseCommand { get; set; }
         public RelayCommand ModuleOrderCommand { get; set; }
         public RelayCommand SaveOrderCommand { get; set; }
         public RelayCommand SplitterDragEndCommand { get; set; }
@@ -60,7 +62,7 @@ namespace ViewLayer.ViewModels
         DispatcherTimer _resizeTimer;
         PopUpWindow _movedWindow;
 
-        public DockerViewModel(ComponentsManager moduleManager, WindowManager windowManager, ConfigManager windowsConfigManager,UserControlManager userControlManager)
+        public DockerViewModel(ComponentsManager moduleManager, WindowManager windowManager, ConfigManager windowsConfigManager, UserControlManager userControlManager)
         {
             _windowManager = windowManager;
             _moduleManager = moduleManager;
@@ -68,10 +70,11 @@ namespace ViewLayer.ViewModels
             _userControlManager = userControlManager;
             _components = _moduleManager.GetModules().ToArray();
 
-            _resizeTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 1500), IsEnabled = false };
+            _resizeTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 500), IsEnabled = false };
             _resizeTimer.Tick += PopUpSaveToConf;
 
-            PopUpModuleCommand = new RelayCommand(param => this.OnPopUpOpen(param), param => true);
+            PopUpOpenCommand = new RelayCommand(param => this.OnPopUpOpen(param), param => true);
+            PopUpCloseCommand = new RelayCommand(param => this.OnPopUpClose(param), param => true);
             ModuleOrderCommand = new RelayCommand(param => this.OnOpenModuleOrder(), param => true);
             SaveOrderCommand = new RelayCommand(param => this.OnSaveModuleOrder(), param => true);
             SplitterDragEndCommand = new RelayCommand(param => this.OnSplitterDragEnd(), param => true);
@@ -81,11 +84,19 @@ namespace ViewLayer.ViewModels
 
         public void Init(int tabModule = 0)
         {
-            Application.Current.Resources["Component0"] = Application.Current.Resources["ClearControl"];
-            Application.Current.Resources["Component1"] = Application.Current.Resources["ClearControl"];
-            Application.Current.Resources["Component2"] = Application.Current.Resources["ClearControl"];
+            Application.Current.Resources["Component0"] = _userControlManager.ReturnControl(ComponentType.notSet);
+            Application.Current.Resources["Component1"] = _userControlManager.ReturnControl(ComponentType.notSet);
+            Application.Current.Resources["Component2"] = _userControlManager.ReturnControl(ComponentType.notSet);
 
             _windowManager.ClosePopUps();
+
+            _xKey0 = ComponentType.notSet;
+            _xKey1 = ComponentType.notSet;
+            _xKey2 = ComponentType.notSet;
+
+            isColumn0Visible = false;
+            isColumn1Visible = false;
+            isColumn2Visible = false;
 
             ComponentsOrderCollection = new ObservableCollection<ComponentsOrderDTO>();
 
@@ -101,11 +112,9 @@ namespace ViewLayer.ViewModels
                     Application.Current.Resources["Component0"] = _userControlManager.ReturnControl(_xKey0);
                     ComponentsOrderCollection.Add(_components.First(x => x.XKey == _xKey0));
 
-                    Column0Width = _configManager.ReturnValue(_moduleSettings, _xKey0, "width").ToString();
-                    if ((bool)_configManager.ReturnValue(_moduleSettings, _xKey0, "detached"))
-                        OnPopUpOpen("0");
+                    Column0Width = _configManager.ReturnValue(_moduleSettings, _xKey0, "width").ToString();                       
 
-                    _windowManager.RegisterEvents(_xKey0,OnPopUpClose, PopUpSizeLocationChanged);
+                    _windowManager.RegisterEvents(_xKey0, PopUpSizeLocationChanged);
                 }
 
                 _xKey1 = _configManager.ReturnXKey(_moduleSettings, order: 1);
@@ -119,10 +128,13 @@ namespace ViewLayer.ViewModels
                     if ((bool)_configManager.ReturnValue(_moduleSettings, _xKey1, "detached"))
                         OnPopUpOpen("1");
 
-                    _windowManager.RegisterEvents(_xKey1, OnPopUpClose, PopUpSizeLocationChanged);
+                    _windowManager.RegisterEvents(_xKey1, PopUpSizeLocationChanged);
                 }
                 else
+                {
                     IsColumn1Visible = false;
+                }
+
 
                 _xKey2 = _configManager.ReturnXKey(_moduleSettings, order: 2);
                 if (_xKey2 != ComponentType.notSet)
@@ -135,10 +147,13 @@ namespace ViewLayer.ViewModels
                     if ((bool)_configManager.ReturnValue(_moduleSettings, _xKey2, "detached"))
                         OnPopUpOpen("2");
 
-                    _windowManager.RegisterEvents(_xKey2, OnPopUpClose, PopUpSizeLocationChanged);
+                    _windowManager.RegisterEvents(_xKey2, PopUpSizeLocationChanged);
                 }
                 else
+                {
                     IsColumn2Visible = false;
+                }
+                    
             }
 
 
@@ -157,7 +172,7 @@ namespace ViewLayer.ViewModels
                 {
                     free1 = false;
                     _xKey0 = module.XKey;
-                    Application.Current.Resources["Component0"] = _userControlManager.ReturnControl(module.XKey); 
+                    Application.Current.Resources["Component0"] = _userControlManager.ReturnControl(module.XKey);
 
                     _configManager.UpdateSettings(_moduleSettings, _xKey0, "order", 0);
                 }
@@ -181,7 +196,7 @@ namespace ViewLayer.ViewModels
             //save to config
             _configManager.SaveToConfig(_moduleSettings);
         }
-        
+
         private void OnPopUpOpen(object param)
         {
             ///If user popup some column, its critical to hold right order.In every cases, last visible column must be at pos 0, because motherfucker gridsplitter.
@@ -213,8 +228,15 @@ namespace ViewLayer.ViewModels
                             IsColumn1Visible = false;
 
                             _xKey0 = _xKey1;
-                            _xKey1 = _xKey2;
-                            _xKey2 = xKey;
+
+                            if (_xKey2 == ComponentType.notSet)                            
+                                _xKey1 = xKey;
+                            else
+                            {
+                                _xKey1 = _xKey2;
+                                _xKey2 = xKey;
+                            }
+                           
 
                             clearOne = true;
                         }
@@ -249,9 +271,8 @@ namespace ViewLayer.ViewModels
             }
 
             Application.Current.Resources["Component0"] = _userControlManager.ReturnControl(_xKey0);
-            Application.Current.Resources["Component1"] = clearOne?Application.Current.Resources["ClearControl"]: _userControlManager.ReturnControl(_xKey1);
-            Application.Current.Resources["Component2"] = Application.Current.Resources["ClearControl"];
-            
+            Application.Current.Resources["Component1"] = _userControlManager.ReturnControl(clearOne ? ComponentType.notSet : _xKey1);
+            Application.Current.Resources["Component2"] = _userControlManager.ReturnControl(ComponentType.notSet);
 
             _configManager.UpdateSettings(_moduleSettings, _xKey0, "order", 0);
             _configManager.UpdateSettings(_moduleSettings, _xKey1, "order", 1);
@@ -259,14 +280,12 @@ namespace ViewLayer.ViewModels
             _configManager.UpdateSettings(_moduleSettings, xKey, "detached", true);
             _configManager.SaveToConfig(_moduleSettings);
 
-            _windowManager.ShowPopUp(xKey,_configManager.ReturnWindowPosition(_moduleSettings, xKey));
-                       
-            ComponentsOrderCollection.Remove(ComponentsOrderCollection.First(x => x.XKey == xKey));
-        }        
-        private void OnPopUpClose(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
+            _windowManager.ShowPopUp(xKey, _configManager.ReturnWindowPosition(_moduleSettings, xKey), this);
 
+            ComponentsOrderCollection.Remove(ComponentsOrderCollection.First(x => x.XKey == xKey));
+        }
+        private void OnPopUpClose(object sender)
+        {
             var window = sender as PopUpWindow;
             var xKey = window.XKeyIdent;
 
@@ -280,7 +299,10 @@ namespace ViewLayer.ViewModels
 
                 _configManager.UpdateSettings(_moduleSettings, _xKey1, "detached", value: false);
                 _configManager.UpdateSettings(_moduleSettings, _xKey1, "order", value: 1);
-                _configManager.UpdateSettings(_moduleSettings, (ComponentType)Enum.Parse(typeof(ComponentType), _moduleSettings.Panels.First(x => x.detached).component), "order", value: 2);
+
+                var lastDetached = _moduleSettings.Panels.FirstOrDefault(x => x.detached)?.component;
+                if (lastDetached != null)
+                    _configManager.UpdateSettings(_moduleSettings, (ComponentType)Enum.Parse(typeof(ComponentType), lastDetached), "order", value: 2);
 
                 _windowManager.ClearControl(xKey);
             }
@@ -302,7 +324,8 @@ namespace ViewLayer.ViewModels
 
             _configManager.SaveToConfig(_moduleSettings);
 
-            window.Hide();
+            window.Visibility = Visibility.Collapsed;
+           
         }
         private void PopUpSizeLocationChanged(object sender, EventArgs e)
         {
@@ -317,10 +340,10 @@ namespace ViewLayer.ViewModels
 
             //TODO:save position/size to config
             var xKey = ((BaseUserControl)_movedWindow.ContentControl.Content).XKeyIdent;
-            var h = _movedWindow.Height;
-            var w = _movedWindow.Width;
-            var t = _movedWindow.Top;
-            var l = _movedWindow.Left;
+            double h = _movedWindow.Height;
+            double w = _movedWindow.Width;
+            double t = _movedWindow.Top;
+            double l = _movedWindow.Left;
 
             _configManager.UpdateSettings(_moduleSettings, xKey, "height", h, detachedWindowProp: true);
             _configManager.UpdateSettings(_moduleSettings, xKey, "width", w, detachedWindowProp: true);
@@ -340,11 +363,11 @@ namespace ViewLayer.ViewModels
         private void SortModuleOrderCollection()
         {
             ComponentsOrderCollection.Clear();
-            if (IsColumn0Visible)
+            if (IsColumn0Visible && _xKey0 != ComponentType.notSet)
                 ComponentsOrderCollection.Add(_components.First(x => x.XKey == _xKey0));
-            if (IsColumn1Visible)
+            if (IsColumn1Visible && _xKey1 != ComponentType.notSet)
                 ComponentsOrderCollection.Add(_components.First(x => x.XKey == _xKey1));
-            if (IsColumn2Visible)
+            if (IsColumn2Visible && _xKey1 != ComponentType.notSet)
                 ComponentsOrderCollection.Add(_components.First(x => x.XKey == _xKey2));
         }
 

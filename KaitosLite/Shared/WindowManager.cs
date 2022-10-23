@@ -73,12 +73,12 @@ namespace ViewLayer.Shared
             _allPopUps.Add(new PopUpWindow() { XKeyIdent = ComponentType.structureComp });
         }
 
-        public void ShowPopUp(ComponentType xKey, WindowPositionDTO windowPositionDTO)
+        public void ShowPopUp(ComponentType xKey, WindowPositionDTO windowPositionDTO,BaseViewModel vm)
         {
 
-            PopUpWindow window = /*new PopUpWindow(_userControlManager.ReturnControl(xKey));*/_allPopUps.First(x => x.XKeyIdent == xKey);
+            PopUpWindow window =_allPopUps.First(x => x.XKeyIdent == xKey);
             window.ContentControl.Content = _userControlManager.ReturnControl(xKey);
-            
+            window.DataContext = vm;
             window.Show();
 
             window.Left = windowPositionDTO.Left;
@@ -91,23 +91,18 @@ namespace ViewLayer.Shared
         }
         public void ClosePopUps()
         {
-            if (_openedPopUps != null)
-            {
-                foreach (var popUp in _openedPopUps)
-                {
-                    //popUp.;
-                }
-                _openedPopUps.Clear();
-            }            
+            _allPopUps.ForEach(x => x.ContentControl.Content = _userControlManager.ReturnControl(ComponentType.notSet));
+            _allPopUps.ForEach(x => x.Hide());
+
         }
         public void ClearControl(ComponentType xKey)
         {
-            _allPopUps.First(x=>x.XKeyIdent == xKey).ContentControl.Content = Application.Current.Resources["ClearControl"];
+            _allPopUps.First(x=>x.XKeyIdent == xKey).ContentControl.Content = _userControlManager.ReturnControl(ComponentType.notSet);
         }
-        public void RegisterEvents(ComponentType xKey, Action<object, CancelEventArgs> onCloseEvent, Action<object, EventArgs> onLocationChangedEvent)
+        public void RegisterEvents(ComponentType xKey, Action<object, EventArgs> onLocationChangedEvent)
         {
             PopUpWindow window = _allPopUps.First(x => x.XKeyIdent == xKey);
-            window.Closing += new CancelEventHandler(onCloseEvent);
+
             window.LocationChanged += new EventHandler(onLocationChangedEvent);
             window.SizeChanged += new SizeChangedEventHandler(onLocationChangedEvent);
         }

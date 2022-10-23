@@ -24,7 +24,13 @@ namespace ViewLayer.Views
     {
         public PopUpWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
+            Closing += PopUpWindow_Closing;
+        }
+
+        private void PopUpWindow_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

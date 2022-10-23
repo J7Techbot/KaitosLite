@@ -19,7 +19,7 @@ namespace DomainLayer.Managers
         public string Theme2Uri { get; } = "pack://application:,,,/Resource/Styles/CustomStyle2.xaml";
 
         //just for debug
-        bool themeSwitch;
+        bool themeSwitch;        
         public string SwitchedTheme
         {
             get
@@ -37,21 +37,44 @@ namespace DomainLayer.Managers
             }
         }
 
+        public string Local1Uri { get; } = "pack://application:,,,/Resource/Localization/CZ.xaml";
+        public string Local2Uri { get; } = "pack://application:,,,/Resource/Localization/EN.xaml";
+
+        //just for debug
+        bool localSwitch;
+        public string SwitchedLocal
+        {
+            get
+            {
+                if (localSwitch)
+                {
+                    localSwitch = false;
+                    return Local1Uri;
+                }
+                else
+                {
+                    localSwitch = true;
+                    return Local2Uri;
+                }
+            }
+        }
+
+        ModuleSettings _settings;
         public SModule LoadFromConfig(int moduleType)
         {
-            var settings = DeserializeObject(GetPathToConfig());
+            _settings = null;
+            _settings = DeserializeObject(GetPathToConfig());
 
-            if (settings == null) return null;
+            if (_settings == null) return null;
 
-            return settings.Modules.First(x => x.id == moduleType.ToString());
+            return _settings.Modules.First(x => x.id == moduleType.ToString());
         }
         public void SaveToConfig(SModule module)
         {
-            var settings = DeserializeObject(GetPathToConfig());
-            settings.Modules.RemoveAll(x => x.id == module.id.ToString());
-            settings.Modules.Add(module);
+            _settings.Modules.RemoveAll(x => x.id == module.id.ToString());
+            _settings.Modules.Add(module);
 
-            SerializeObject(settings);
+            SerializeObject(_settings);
         }
 
         public ComponentType ReturnXKey(SModule module, int order)
@@ -64,14 +87,34 @@ namespace DomainLayer.Managers
         }
         public void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value, bool detachedWindowProp = false)
         {
-            object source = module.Panels.First(x => x.component.Equals(_xKey.ToString()));
+            if (_xKey != ComponentType.notSet)
+            {
+                object source = module.Panels.First(x => x.component.Equals(_xKey.ToString()));
 
-            if (detachedWindowProp)
-                source = module.Panels.First(x => x.component.Equals(_xKey.ToString())).detachedWindow;
+                if (detachedWindowProp)
+                {
+                    var modules = _settings.Modules;
+                    List<SPanel> panels = new List<SPanel>();
+                    foreach (var item in modules)
+                    {
+                        var panel = item.Panels.FirstOrDefault(x => x.component == _xKey.ToString());
+                        if (panel != null)
+                            panels.Add(panel);
+                    }
 
-            var prop = source.GetType().GetProperty(propertyName);
-            prop.SetValue(source, value);
-
+                    foreach (var panel in panels)
+                    {
+                        source = panel.detachedWindow;
+                        var prop = panel.detachedWindow.GetType().GetProperty(propertyName);
+                        prop.SetValue(source, value);
+                    }
+                }
+                else if (source != null)
+                {
+                    var prop = source.GetType().GetProperty(propertyName);
+                    prop.SetValue(source, value);
+                }
+            }
         }
 
         //TODO:Need rwork

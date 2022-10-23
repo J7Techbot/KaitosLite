@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <None Remove="Resource\Images\terminal.png" />
+    <None Remove="Resource\Images\window_in.png" />
+    <None Remove="Resource\Images\window_out.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +30,12 @@
 
   <ItemGroup>
     <Resource Include="Resource\Images\terminal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\window_in.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resource\Images\window_out.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

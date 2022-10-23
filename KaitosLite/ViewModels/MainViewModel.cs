@@ -4,6 +4,7 @@ using KaitosLite;
 using KaitosObjects.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace ViewLayer.ViewModels
     {        
         public RelayCommand GenerateCommand { get; set; }
         public RelayCommand ChangeThemeCommand { get; set; }
+        public RelayCommand ChangeLocalizationCommand { get; set; }
+
         private GenerateModule _generateModule;
         private ConfigManager _configManager;
 
@@ -25,7 +28,8 @@ namespace ViewLayer.ViewModels
             get => tabSelectedIndex;
             set
             {
-                if (value != tabSelectedIndex)
+                Trace.WriteLine(value);
+                if (tabSelectedIndex != value)
                 {
                     tabSelectedIndex = value;
                     OnPropertyChanged();
@@ -38,13 +42,16 @@ namespace ViewLayer.ViewModels
         private DockerViewModel dockerViewModel;
         public DockerViewModel DockerViewModel { get => dockerViewModel; set { dockerViewModel = value; OnPropertyChanged(); } }
 
+
+        private ResourceDictionary _localization;
         public MainViewModel(DockerViewModel dockerViewModel,ConfigManager configManager)
         {
+            _localization = Application.Current.Resources;
             _configManager = configManager;
             DockerViewModel = dockerViewModel;
 
             ChangeThemeCommand = new RelayCommand(param => this.OnChangeTheme(), param => true);
-
+            ChangeLocalizationCommand = new RelayCommand(param => this.OnChangeLocalization(), param => true);
             #region DomainService
             GenerateCommand = new RelayCommand(param => this.OnGenerate(), param => true);
 
@@ -53,6 +60,13 @@ namespace ViewLayer.ViewModels
             ProjectDomainService.SubscribeProjectsChanged(GetAllProjects);
             ProjectDomainService.SubscribeSelectedPagesChanged(GetSelectedPages);
             #endregion
+        }
+
+        private void OnChangeLocalization()
+        {
+            MessageBox.Show((string)_localization["ChangeLocalizationConfirmKey"]);
+            var app = (App)Application.Current;
+            app.ChangeLocalization(new Uri(_configManager.SwitchedLocal, UriKind.RelativeOrAbsolute));
         }
 
         private void OnChangeTheme()
