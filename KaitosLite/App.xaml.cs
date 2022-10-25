@@ -1,4 +1,5 @@
 ﻿
+using DomainLayer.Interfaces;
 using DomainLayer.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ViewLayer.Interfaces;
 using ViewLayer.Shared;
 using ViewLayer.ViewModels;
 using ViewLayer.Views;
@@ -32,13 +34,16 @@ namespace KaitosLite
         private void ConfigureServices(ServiceCollection services)
         {
             // Managers
-            services.AddSingleton<WindowManager>();
-            services.AddSingleton<ComponentsManager>();
+            services.AddSingleton<IWindowManager, WindowManager>();
+            services.AddSingleton<IComponentManager, ComponentManager>();
+            services.AddSingleton<IUserControlManager, UserControlManager>();
+            services.AddSingleton<IConfigManager, ConfigManager>();
+            services.AddSingleton<ILocalizationManager, LocalizationManager>();
             services.AddSingleton<ScanManager>();
             services.AddSingleton<PageManager>();
             services.AddSingleton<ModsManager>();
             services.AddSingleton<ProjectManager>();
-            services.AddSingleton<ConfigManager>();
+            
 
             //ViewModels
             services.AddSingleton<DockerViewModel>();
@@ -48,7 +53,7 @@ namespace KaitosLite
             services.AddSingleton<MainWindow>();
 
             //User controls
-            services.AddSingleton<UserControlManager>();
+            
             services.AddSingleton<ProjectUC>();
             services.AddSingleton<PagesUC>();
             services.AddSingleton<ModsUC>();
@@ -59,10 +64,6 @@ namespace KaitosLite
         private void OnStartup(object sender, StartupEventArgs e)
         {
             serviceProvider.GetService<MainWindow>().Show();
-
-            //var navigationService = serviceProvider.GetService<WindowManager>();
-           
-            //navigationService.Show<MainWindow>();
         }
         public ResourceDictionary ThemeDictionary
         {
@@ -76,8 +77,7 @@ namespace KaitosLite
         public void ChangeTheme(Uri uri)
         {
             ThemeDictionary.MergedDictionaries.Clear();
-            ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
-            
+            ThemeDictionary.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });            
         }
         public void ChangeLocalization(Uri uri)
         {

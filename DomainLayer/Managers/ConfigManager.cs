@@ -1,4 +1,5 @@
-﻿using KaitosObjects.DTOs;
+﻿using DomainLayer.Interfaces;
+using KaitosObjects.DTOs;
 using KaitosObjects.Enums;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ using System.Xml.Serialization;
 
 namespace DomainLayer.Managers
 {
-    public class ConfigManager
+    public class ConfigManager : IConfigManager
     {
         public string Theme1Uri { get; } = "pack://application:,,,/Resource/Styles/CustomStyle.xaml";
         public string Theme2Uri { get; } = "pack://application:,,,/Resource/Styles/CustomStyle2.xaml";
@@ -57,7 +58,7 @@ namespace DomainLayer.Managers
                     return Local2Uri;
                 }
             }
-        }
+        }       
 
         ModuleSettings _settings;
         public SModule LoadFromConfig(int moduleType)
@@ -127,14 +128,14 @@ namespace DomainLayer.Managers
             var prop = source.GetType().GetProperty(propertyName);
             return prop.GetValue(source);
         }
-        public WindowPositionDTO ReturnWindowPosition(SModule module, ComponentType xKey)
+        public WindowStatsDTO ReturnWindowPosition(SModule module, ComponentType xKey)
         {
             var h = (double)ReturnValue(module, xKey, "height", detached: true);
             var w = (double)ReturnValue(module, xKey, "width", detached: true);
             var t = (double)ReturnValue(module, xKey, "Y", detached: true);
             var l = (double)ReturnValue(module, xKey, "X", detached: true);
 
-            return new WindowPositionDTO() { Height = h, Width = w, Top = t, Left = l };
+            return new WindowStatsDTO() { Height = h, Width = w, Top = t, Left = l };
         }
         private string GetPathToConfig()
         {

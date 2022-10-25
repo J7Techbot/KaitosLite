@@ -1,4 +1,5 @@
 ﻿using DomainLayer.DomainServices;
+using DomainLayer.Interfaces;
 using DomainLayer.Managers;
 using KaitosLite;
 using KaitosObjects.DTOs;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ViewLayer.Interfaces;
 using ViewLayer.Shared;
 using ViewLayer.Views;
 
@@ -22,8 +24,9 @@ namespace ViewLayer.ViewModels
         public RelayCommand OnOpenSettingsCommand { get; set; }
 
         private GenerateModule _generateModule;
-        private ConfigManager _configManager;
-        private readonly WindowManager _windowManager;
+        private IConfigManager _configManager;
+        private readonly IWindowManager _windowManager;
+        private readonly ILocalizationManager _localz;
         private int tabSelectedIndex;
         public int TabSelectedIndex
         {
@@ -45,12 +48,13 @@ namespace ViewLayer.ViewModels
         public DockerViewModel DockerViewModel { get => dockerViewModel; set { dockerViewModel = value; OnPropertyChanged(); } }
 
 
-        private ResourceDictionary _localization;
-        public MainViewModel(DockerViewModel dockerViewModel,ConfigManager configManager,WindowManager windowManager)
+        
+        public MainViewModel(DockerViewModel dockerViewModel, IConfigManager configManager, IWindowManager windowManager, ILocalizationManager localizationManager)
         {
-            _localization = Application.Current.Resources;
+            
             _configManager = configManager;
             _windowManager = windowManager;
+            _localz = localizationManager;
             DockerViewModel = dockerViewModel;
 
             ChangeThemeCommand = new RelayCommand(param => this.OnChangeTheme(), param => true);
@@ -68,12 +72,13 @@ namespace ViewLayer.ViewModels
 
         private void OnOpenSettings()
         {
-            _windowManager.ShowDialog<SettingsWindow>();
+            _windowManager.ShowDialogInject<SettingsWindow>();
         }
 
         private void OnChangeLocalization()
         {
-            MessageBox.Show((string)_localization["ChangeLocalizationConfirmKey"]);
+            MessageBox.Show(_localz.GetByKey("Test",new string[] {"kočka","lopata"}));
+
             var app = (App)Application.Current;
             app.ChangeLocalization(new Uri(_configManager.SwitchedLocal, UriKind.RelativeOrAbsolute));
         }

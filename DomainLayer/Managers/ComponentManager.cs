@@ -1,16 +1,26 @@
-﻿using KaitosObjects.DTOs;
+﻿using DomainLayer.Interfaces;
+using KaitosObjects.DTOs;
 using KaitosObjects.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace DomainLayer.Managers
 {
-    public class ComponentsManager
+    public class ComponentManager : IComponentManager
     {
-        public IEnumerable<ComponentsOrderDTO> GetModules()
+        public void SetComponent(string compName,object value)
+        {
+            Application.Current.Resources[compName] = value;
+        }
+        public object GetComponent(string compName)
+        {
+            return Application.Current.Resources[compName];
+        }
+        public IEnumerable<ComponentsOrderDTO> GetComponentTypes()
         {
             //this is collection of all modules and must be loaded from Db, or file
             return new ComponentsOrderDTO[] { new ComponentsOrderDTO() { Name = "Projekty", XKey = ComponentType.projectComp },

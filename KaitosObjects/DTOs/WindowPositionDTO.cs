@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KaitosObjects.DTOs
 {
-    public class WindowPositionDTO
+    public class WindowStatsDTO
     {
         public double Height { get; set; }
         public double Width { get; set; }

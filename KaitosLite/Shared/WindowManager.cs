@@ -9,71 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using ViewLayer.Interfaces;
 using ViewLayer.ViewModels;
 using ViewLayer.Views;
 using ViewLayer.Views.UserControls;
 
 namespace ViewLayer.Shared
 {
-    public class WindowManager
+    public class WindowManager : IWindowManager
     {
-        private Window CreateNewWindow<T>() where T : Window, new()
-        {
-            T newWindow = new T();
-            newWindow.Show();
-            return newWindow;
-        }
-        private Window CreateNewWindowDialog<T>() where T : Window, new()
-        {
-            T newWindow = new T();
-
-            return newWindow;
-        }
-        public void Show<T>() where T : Window, new()
-        {
-            CreateNewWindow<T>();
-        }
-        public void Show<T>(BaseViewModel vm) where T : Window, new()
-        {
-            CreateNewWindow<T>().DataContext = vm;
-        }
-        public void ShowDialog<T>(BaseViewModel vm) where T : Window, new()
-        {
-            var dialog = CreateNewWindowDialog<T>();
-            dialog.DataContext = vm;
-            dialog.ShowDialog();
-        }
-        public void ShowNjected<T>() where T : Window
-        {
-            //...
-            //var window = serviceProvider.GetRequiredService<T>();
-            //...
-        }
-        public async void ShowDialog<T>(object param = null) where T : Window, new()
-        {
-            var window = _serviceProvider.GetRequiredService<T>();
-
-            if (window is IActivable activableWindow)
-            {
-                await activableWindow.ActivateAsync(param);
-            }
-
-            window.ShowDialog();
-
-          
-        }
-        public void ShowDialogNjected<T>() where T : Window
-        {
-            //...
-            //var window = serviceProvider.GetRequiredService<T>();
-            //...
-        }
-
         IServiceProvider _serviceProvider;
-        UserControlManager _userControlManager;
+        IUserControlManager _userControlManager;
         List<PopUpWindow> _openedPopUps;
         List<PopUpWindow> _allPopUps;
-        public WindowManager(UserControlManager userControlManager, IServiceProvider serviceProvider)
+        public WindowManager(IUserControlManager userControlManager, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _userControlManager = userControlManager;
@@ -85,7 +34,32 @@ namespace ViewLayer.Shared
             _allPopUps.Add(new PopUpWindow() { XKeyIdent = ComponentType.structureComp });
         }
 
-        public void ShowPopUp(ComponentType xKey, WindowPositionDTO windowPositionDTO,BaseViewModel vm)
+        private Window CreateNewWindowDialog<T>() where T : Window, new()
+        {
+            T newWindow = new T();
+
+            return newWindow;
+        }
+        public void ShowDialog<T>(BaseViewModel vm) where T : Window, new()
+        {
+            var dialog = CreateNewWindowDialog<T>();
+            dialog.DataContext = vm;
+            dialog.ShowDialog();
+        }
+
+        public async void ShowDialogInject<T>(object param = null) where T : Window, new()
+        {
+            var window = _serviceProvider.GetRequiredService<T>();
+
+            if (window is IActivable activableWindow)
+            {
+                await activableWindow.ActivateAsync(param);
+            }
+
+            window.ShowDialog();
+        }
+
+        public void ShowPopUp(ComponentType xKey, WindowStatsDTO windowPositionDTO,BaseViewModel vm)
         {
 
             PopUpWindow window =_allPopUps.First(x => x.XKeyIdent == xKey);
@@ -107,7 +81,7 @@ namespace ViewLayer.Shared
             _allPopUps.ForEach(x => x.Hide());
 
         }
-        public void ClearControl(ComponentType xKey)
+        public void ClearPopUpContentControl(ComponentType xKey)
         {
             _allPopUps.First(x=>x.XKeyIdent == xKey).ContentControl.Content = _userControlManager.ReturnControl(ComponentType.notSet);
         }
