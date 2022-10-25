@@ -26,11 +26,13 @@ namespace ViewLayer.ViewModels
 {
     public class DockerViewModel : BaseViewModel
     {
-        string column0Width;
+        private string column0Width;
         public string Column0Width { get => column0Width; set { column0Width = value; OnPropertyChanged(); } }
-        string column1Width;
+
+        private string column1Width;
         public string Column1Width { get => column1Width; set { column1Width = value; OnPropertyChanged(); } }
-        string column2Width;
+
+        private string column2Width;
         public string Column2Width { get => column2Width; set { column2Width = value; OnPropertyChanged(); } }
 
 
@@ -64,7 +66,6 @@ namespace ViewLayer.ViewModels
         SModule _moduleSettings;
         DispatcherTimer _resizeTimer;
         PopUpWindow _movedWindow;
-
         
         public DockerViewModel(IComponentManager moduleManager, IWindowManager windowManager, IConfigManager windowsConfigManager, IUserControlManager userControlManager)
         {
