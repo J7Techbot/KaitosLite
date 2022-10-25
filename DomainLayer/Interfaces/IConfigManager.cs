@@ -18,6 +18,7 @@ namespace DomainLayer.Interfaces
         void SaveToConfig(SModule module);
 
         ComponentType ReturnXKey(SModule module, int order);
+        ComponentType[] ReturnXKeys(SModule module);
 
         void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value, bool detachedWindowProp = false);
 

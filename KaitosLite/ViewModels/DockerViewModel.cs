@@ -44,10 +44,12 @@ namespace ViewLayer.ViewModels
         public bool IsColumn2Visible { get => isColumn2Visible; set { isColumn2Visible = value; OnPropertyChanged(); } }
 
         public ObservableCollection<ComponentsOrderDTO> ComponentsOrderCollection { get; set; }
-
+        
         private ComponentType _componentXKey0;
         private ComponentType _componentXKey1;
         private ComponentType _componentXKey2;
+
+        private int _moduleNumber;
 
         public RelayCommand PopUpOpenCommand { get; set; }
         public RelayCommand PopUpCloseCommand { get; set; }
@@ -63,16 +65,18 @@ namespace ViewLayer.ViewModels
         DispatcherTimer _resizeTimer;
         PopUpWindow _movedWindow;
 
-        private int _moduleNumber;
+        
         public DockerViewModel(IComponentManager moduleManager, IWindowManager windowManager, IConfigManager windowsConfigManager, IUserControlManager userControlManager)
         {
+            ComponentsOrderCollection = new ObservableCollection<ComponentsOrderDTO>();
+
             _windowManager = windowManager;
             _componentManager = moduleManager;
             _configManager = windowsConfigManager;
             _userControlManager = userControlManager;
 
             _resizeTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 500), IsEnabled = false };
-            _resizeTimer.Tick += PopUpSaveToConf;
+            _resizeTimer.Tick += PopUpSaveStats;
 
             PopUpOpenCommand = new RelayCommand(param => this.OnPopUpOpen(param), param => true);
             PopUpCloseCommand = new RelayCommand(param => this.OnPopUpClose(param), param => true);
@@ -89,17 +93,18 @@ namespace ViewLayer.ViewModels
             _windowManager.ClosePopUps();
             _moduleSettings = _configManager.LoadFromConfig(moduleNumber);
 
-            ComponentsOrderCollection = InitComponentOrderCollection(_moduleSettings);
+            InitPanels();
 
-            ClearPanels();
-
-            RegisterEvents(ComponentsOrderCollection);
+            InitComponentOrderCollection(_moduleSettings);
+            
+            InitPopUpEvents(ComponentsOrderCollection);
 
             InitAtachedComponents(InitColumns(InitXKeys(_moduleSettings)));
 
             InitDetachedComponents(_moduleSettings);
 
-            void RegisterEvents(IEnumerable<ComponentsOrderDTO> compsInModule)
+
+            void InitPopUpEvents(IEnumerable<ComponentsOrderDTO> compsInModule)
             {
                 foreach (var comp in compsInModule)
                 {
@@ -107,7 +112,7 @@ namespace ViewLayer.ViewModels
                 }                
             }
 
-            void ClearPanels()
+            void InitPanels()
             {
                 _componentManager.SetComponent("Component0", _userControlManager.ReturnControl(ComponentType.notSet));
                 _componentManager.SetComponent("Component1", _userControlManager.ReturnControl(ComponentType.notSet));
@@ -190,23 +195,18 @@ namespace ViewLayer.ViewModels
                 }
             }
 
-            ObservableCollection<ComponentsOrderDTO> InitComponentOrderCollection(SModule moduleSettings)
+            void InitComponentOrderCollection(SModule moduleSettings)
             {
-                ObservableCollection<ComponentsOrderDTO> retCollection = new ObservableCollection<ComponentsOrderDTO>();
-                var selectedComps = moduleSettings.Panels.OrderBy(x => x.order).Select(x => x.component);
+                ComponentsOrderCollection.Clear();
+
+                var selectedComps = _configManager.ReturnXKeys(moduleSettings);
                 var allComps = _componentManager.GetComponentTypes();
+
                 foreach (var comp in selectedComps)
                 {
-                    retCollection.Add(allComps.First(x => x.XKey == (ComponentType)Enum.Parse(typeof(ComponentType), comp)));
+                    ComponentsOrderCollection.Add(allComps.First(x => x.XKey == comp));
                 }
-
-                return retCollection;
             }
-        }
-       
-        private void ShowPopUp(ComponentType xKey)
-        {
-            _windowManager.ShowPopUp(xKey, _configManager.ReturnWindowPosition(_moduleSettings, xKey), this);
         }
 
         private void OnPopUpOpen(object param)
@@ -233,7 +233,7 @@ namespace ViewLayer.ViewModels
             _configManager.SaveToConfig(_moduleSettings);
 
             Init(_moduleNumber);
-                                    
+
         }
         private void OnPopUpClose(object sender)
         {
@@ -241,13 +241,15 @@ namespace ViewLayer.ViewModels
             var xKey = window.XKeyIdent;
 
             _windowManager.ClearPopUpContentControl(xKey);
-
             _configManager.UpdateSettings(_moduleSettings, xKey, "detached", value: false);
-
             _configManager.SaveToConfig(_moduleSettings);
 
-            Init(_moduleNumber);            
+            Init(_moduleNumber);
         }
+        private void ShowPopUp(ComponentType xKey)
+        {
+            _windowManager.ShowPopUp(xKey, _configManager.ReturnWindowPosition(_moduleSettings, xKey), this);
+        }       
         private void PopUpSizeLocationChanged(object sender, EventArgs e)
         {
             _movedWindow = (PopUpWindow)sender;
@@ -255,7 +257,7 @@ namespace ViewLayer.ViewModels
             _resizeTimer.Stop();
             _resizeTimer.Start();
         }
-        private void PopUpSaveToConf(object sender, EventArgs e)
+        private void PopUpSaveStats(object sender, EventArgs e)
         {
             _resizeTimer.IsEnabled = false;
 
@@ -266,16 +268,6 @@ namespace ViewLayer.ViewModels
             _configManager.UpdateSettings(_moduleSettings, xKey, "width", windowStats.Width, detachedWindowProp: true);
             _configManager.UpdateSettings(_moduleSettings, xKey, "Y", windowStats.Top, detachedWindowProp: true);
             _configManager.UpdateSettings(_moduleSettings, xKey, "X", windowStats.Left, detachedWindowProp: true);
-
-            _configManager.SaveToConfig(_moduleSettings);
-        }
-
-        private void OnSplitterDragEnd()
-        {
-            _configManager.UpdateSettings(_moduleSettings, _componentXKey0, "width", Column0Width);
-            _configManager.UpdateSettings(_moduleSettings, _componentXKey1, "width", Column1Width);
-            _configManager.UpdateSettings(_moduleSettings, _componentXKey2, "width", Column2Width);
-
             _configManager.SaveToConfig(_moduleSettings);
         }
 
@@ -288,10 +280,17 @@ namespace ViewLayer.ViewModels
             _configManager.UpdateSettings(_moduleSettings, ComponentsOrderCollection.ToArray()[0].XKey, "order", 0);
             _configManager.UpdateSettings(_moduleSettings, ComponentsOrderCollection.ToArray()[1].XKey, "order", 1);
             _configManager.UpdateSettings(_moduleSettings, ComponentsOrderCollection.ToArray()[2].XKey, "order", 2);
-            
             _configManager.SaveToConfig(_moduleSettings);
 
             Init(_moduleNumber);
         }
+
+        private void OnSplitterDragEnd()
+        {
+            _configManager.UpdateSettings(_moduleSettings, _componentXKey0, "width", Column0Width);
+            _configManager.UpdateSettings(_moduleSettings, _componentXKey1, "width", Column1Width);
+            _configManager.UpdateSettings(_moduleSettings, _componentXKey2, "width", Column2Width);
+            _configManager.SaveToConfig(_moduleSettings);
+        }       
     }
 }

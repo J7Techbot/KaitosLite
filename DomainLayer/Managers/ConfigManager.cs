@@ -86,6 +86,22 @@ namespace DomainLayer.Managers
 
             return (ComponentType)Enum.Parse(typeof(ComponentType), panel.component);
         }
+        public ComponentType[] ReturnXKeys(SModule module)
+        {
+            List<ComponentType> componentTypes = new List<ComponentType>();
+
+            if (module.Panels == null)
+                return null;
+            else
+            {
+                foreach (var item in module.Panels.OrderBy(x=>x.order))
+                {
+                    componentTypes.Add((ComponentType)Enum.Parse(typeof(ComponentType), item.component));
+                }
+            }
+            
+            return componentTypes.ToArray();
+        }
         public void UpdateSettings(SModule module, ComponentType _xKey, string propertyName, object value, bool detachedWindowProp = false)
         {
             if (_xKey != ComponentType.notSet)
