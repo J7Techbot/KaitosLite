@@ -11,4 +11,6 @@
     <s:String x:Key="OCR">OCR</s:String>
     <s:String x:Key="Export">Export</s:String>
     <s:String x:Key="Protocol">Protocol</s:String>
+    <s:String x:Key="Profile">Profile</s:String>
+    <s:String x:Key="Settings">Settings</s:String>
 </ResourceDictionary>

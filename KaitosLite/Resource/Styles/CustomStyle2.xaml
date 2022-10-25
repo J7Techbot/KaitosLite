@@ -1,23 +1,31 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style TargetType="{x:Type Control}" x:Key="ControlStyle">
-        <Setter Property="FontFamily" Value="Impact"/>
+    <Style x:Key="ControlStyle" TargetType="{x:Type Control}">
+        <Setter Property="FontFamily" Value="Impact" />
     </Style>
-    <Style TargetType="{x:Type Window}" x:Key="WindowStyle">
+    <Style x:Key="WindowStyle" TargetType="{x:Type Window}">
         <Setter Property="Background" Value="Gainsboro" />
     </Style>
-    <Style TargetType="{x:Type TabControl}" x:Key="TabControlStyle">
+    <Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="Background" Value="Gray" />
     </Style>
-    <Style TargetType="{x:Type DataGrid}" x:Key="DatagridStyle" BasedOn="{StaticResource ControlStyle}">
+    <Style
+        x:Key="DatagridStyle"
+        BasedOn="{StaticResource ControlStyle}"
+        TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="white" />
     </Style>
-    <Style TargetType="{x:Type GridSplitter}" x:Key="GridSplitterStyle" BasedOn="{StaticResource ControlStyle}">
+    <Style
+        x:Key="GridSplitterStyle"
+        BasedOn="{StaticResource ControlStyle}"
+        TargetType="{x:Type GridSplitter}">
         <Setter Property="Background" Value="White" />
         <Setter Property="Width" Value="2" />
     </Style>
-    <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource ControlStyle}">
+    <Style
+        x:Key="ButtonStyle"
+        BasedOn="{StaticResource ControlStyle}"
+        TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#373737" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Width" Value="100" />
@@ -28,9 +36,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
                         <Grid>
-                            <ContentPresenter x:Name="MyContentPresenter"  Content="{TemplateBinding Content}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            <ContentPresenter
+                                x:Name="MyContentPresenter"
+                                Margin="0,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{TemplateBinding Content}" />
                         </Grid>
                     </Border>
 
@@ -50,8 +63,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--BUTTON OUT-->
-    <Style TargetType="{x:Type Button}" x:Key="ButtonOutStyle" BasedOn="{StaticResource ButtonStyle}">
+    <!--  BUTTON OUT  -->
+    <Style
+        x:Key="ButtonOutStyle"
+        BasedOn="{StaticResource ButtonStyle}"
+        TargetType="{x:Type Button}">
         <Setter Property="MaxWidth" Value="20" />
         <Setter Property="MaxHeight" Value="20" />
         <Setter Property="Background" Value="#373737" />
@@ -59,7 +75,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
                         <Grid>
                             <Image Width="20" Source="/Resource/Images/window_out.png" />
                         </Grid>
@@ -81,8 +97,11 @@
         </Setter>
     </Style>
 
-    <!--BUTTON IN-->
-    <Style TargetType="{x:Type Button}" x:Key="ButtonInStyle" BasedOn="{StaticResource ButtonStyle}">
+    <!--  BUTTON IN  -->
+    <Style
+        x:Key="ButtonInStyle"
+        BasedOn="{StaticResource ButtonStyle}"
+        TargetType="{x:Type Button}">
         <Setter Property="FontSize" Value="17" />
         <Setter Property="MaxWidth" Value="20" />
         <Setter Property="MaxHeight" Value="20" />
@@ -91,7 +110,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
                         <Grid>
                             <Image Width="20" Source="/Resource/Images/window_in.png" />
                         </Grid>
@@ -112,12 +131,13 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style TargetType="{x:Type TabItem}" x:Key="SpacedTab" BasedOn="{StaticResource ControlStyle}">
-        <Setter
-        Property="Template">
+    <Style
+        x:Key="SpacedTab"
+        BasedOn="{StaticResource ControlStyle}"
+        TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate
-                TargetType="{x:Type TabItem}">
+                <ControlTemplate TargetType="{x:Type TabItem}">
                     <!--<Border
                     x:Name="Spacer"
                     Width="100"
@@ -128,33 +148,33 @@
                     BorderThickness="0">-->
                     <Grid>
                         <Border
-                        x:Name="Border"
-                        MinWidth="30"
-                        MinHeight="30"
-                        Height="auto"
-                        Background="White"
-                        BorderBrush="DarkGray"
-                        BorderThickness="0,0,0,4"
-                        CornerRadius="0,0,0,0"
-                        Cursor="Hand" >
-                            <ContentPresenter                                
-                            x:Name="ContentSite"
-                            TextElement.FontSize="10pt"
-                            TextElement.FontFamily="Arial"
-                            TextElement.Foreground="Black"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            ContentSource="Header"
-                            Margin="8,3,8,3"
-                            Width="Auto"
-                            Height="Auto" />
-                        <!--</Border>-->
-                    </Border>
+                            x:Name="Border"
+                            Height="auto"
+                            MinWidth="30"
+                            MinHeight="30"
+                            Background="White"
+                            BorderBrush="DarkGray"
+                            BorderThickness="0,0,0,4"
+                            CornerRadius="0,0,0,0"
+                            Cursor="Hand">
+                            <ContentPresenter
+                                x:Name="ContentSite"
+                                Width="Auto"
+                                Height="Auto"
+                                Margin="8,3,8,3"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                ContentSource="Header"
+                                TextElement.FontFamily="Arial"
+                                TextElement.FontSize="10pt"
+                                TextElement.Foreground="Black" />
+                            <!--</Border>-->
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="Gray" />
-                            <Setter Property="Foreground" Value="white"></Setter>
+                            <Setter Property="Foreground" Value="white" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

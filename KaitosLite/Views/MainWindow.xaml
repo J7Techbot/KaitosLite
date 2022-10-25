@@ -11,9 +11,8 @@
     Height="768"
     MinWidth="1024"
     MinHeight="768"
-    mc:Ignorable="d"
-    
-    Style="{DynamicResource WindowStyle}">
+    Style="{DynamicResource WindowStyle}"
+    mc:Ignorable="d">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -35,116 +34,174 @@
             Grid.RowSpan="7"
             Grid.Column="0"
             Margin="5,10,15,10"
-            TabStripPlacement="Left"
-            SelectedIndex="{Binding TabSelectedIndex ,Mode=OneWayToSource}"
-            Style="{DynamicResource TabControlStyle}">
+            SelectedIndex="{Binding TabSelectedIndex, Mode=OneWayToSource}"
+            Style="{DynamicResource TabControlStyle}"
+            TabStripPlacement="Left">
 
-            <TabItem                
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource Projects}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Projects}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{DynamicResource Scans}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Scans}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem                
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="{DynamicResource Pages}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Pages}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="{DynamicResource Structure}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Structure}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem                
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="{DynamicResource OCR}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource OCR}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="{DynamicResource Export}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Export}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
 
-            <TabItem
-                Style="{DynamicResource SpacedTab}">
+            <TabItem Style="{DynamicResource SpacedTab}">
                 <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="{DynamicResource Protocol}" VerticalAlignment="Center"></TextBlock>
-                        <Image Source="/Resource/Images/terminal.png" Width="30" />
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{DynamicResource Protocol}" />
+                        <Image Width="30" Source="/Resource/Images/terminal.png" />
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <UC:DockerUC DataContext="{Binding DockerViewModel}"/>
+                    <UC:DockerUC DataContext="{Binding DockerViewModel}" />
                 </TabItem.Content>
             </TabItem>
         </TabControl>
-        <Button Content="{DynamicResource ChangeThemeKey}"
-                Command="{Binding ChangeThemeCommand}"
-                Grid.Row="8"
-                Width="190"
+        <Line
+            Grid.Row="0"
+            Grid.RowSpan="8"
+            Stroke="AntiqueWhite"
+            StrokeThickness="1"
+            X1="0"
+            X2="108"
+            Y1="550"
+            Y2="550" />
+        <Line
+            Grid.Row="8"
+            Stroke="AntiqueWhite"
+            StrokeThickness="1"
+            X1="0"
+            X2="108"
+            Y1="-12"
+            Y2="-12" />
+        <Button
+            Grid.Row="8"
+            Width="190"
+            Height="25"
+            Margin="20"
+            HorizontalAlignment="Left"
+            Command="{Binding ChangeThemeCommand}"
+            Content="{DynamicResource ChangeThemeKey}"
+            Style="{DynamicResource ButtonStyle}" />
+        <Button
+            Grid.Row="8"
+            Width="150"
+            Height="25"
+            Margin="230,20,20,20"
+            HorizontalAlignment="Left"
+            Command="{Binding ChangeLocalizationCommand}"
+            Content="{DynamicResource ChangeLocalizationKey}"
+            Style="{DynamicResource ButtonStyle}" />
+
+        <StackPanel Grid.Row="6" Grid.Column="0">
+            <Button
+                Width="80"
                 Height="25"
+                Margin="15,5,0,0"
                 HorizontalAlignment="Left"
-                Margin="20"
-                Style="{DynamicResource ButtonStyle}"></Button>
-        <Button Content="{DynamicResource ChangeLocalizationKey}"
-                Command="{Binding ChangeLocalizationCommand}"
-                Grid.Row="8"
-                Width="150"
+                Style="{DynamicResource ButtonSettingsStyle}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="15" Source="/Resource/Images/person.png" />
+                        <TextBlock Text="{DynamicResource Profile}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button
+                Width="80"
                 Height="25"
+                Margin="15,10,0,0"
                 HorizontalAlignment="Left"
-                Margin="230,20,20,20"
-                Style="{DynamicResource ButtonStyle}"></Button>
+                Command="{Binding OnOpenSettingsCommand}"
+                Style="{DynamicResource ButtonSettingsStyle}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="15" Source="/Resource/Images/settings.png" />
+                        <TextBlock Text="{DynamicResource Settings}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
     </Grid>
 </Window>

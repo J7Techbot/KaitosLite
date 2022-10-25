@@ -1,14 +1,14 @@
 ﻿<ModuleSettings version="1.0.23">
 	<module id="0">				
-		<panel component="projectComp" order="2" width="*" detached="false">			
+		<panel component="projectComp" order="0" width="*" detached="false">			
 			<detachedWindow X="0" Y="0" width="500" height="300"/>
 		</panel>
 
-		<panel component="modsComp" order="0" width="*" detached="false">
+		<panel component="modsComp" order="1" width="*" detached="false">
 			<detachedWindow X="1200" Y="20" width="800" height="500"/>
 		</panel>
 
-		<panel component="pagesComp" order="1" width="*" detached="false">
+		<panel component="pagesComp" order="2" width="*" detached="false">
 			<detachedWindow X="1200" Y="20" width="800" height="500"/>
 		</panel>
 	</module>

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainServices\ProjectDomainService.cs" />
+    <Compile Include="Managers\ConfigManager.cs" />
     <Compile Include="Managers\GenerateModule.cs" />
     <Compile Include="Managers\MarcManager.cs" />
     <Compile Include="Managers\ModsManager.cs" />
@@ -62,8 +63,12 @@
     <Compile Include="Managers\PageManager.cs" />
     <Compile Include="Managers\ProjectManager.cs" />
     <Compile Include="Managers\ScanManager.cs" />
-    <Compile Include="Managers\ConfigManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccesLayer\DataAccesLayer.csproj">
@@ -82,6 +87,12 @@
     <Content Include="Resource\WindowsConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

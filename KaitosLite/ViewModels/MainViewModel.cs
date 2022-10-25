@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using ViewLayer.Shared;
+using ViewLayer.Views;
 
 namespace ViewLayer.ViewModels
 {
@@ -18,10 +19,11 @@ namespace ViewLayer.ViewModels
         public RelayCommand GenerateCommand { get; set; }
         public RelayCommand ChangeThemeCommand { get; set; }
         public RelayCommand ChangeLocalizationCommand { get; set; }
+        public RelayCommand OnOpenSettingsCommand { get; set; }
 
         private GenerateModule _generateModule;
         private ConfigManager _configManager;
-
+        private readonly WindowManager _windowManager;
         private int tabSelectedIndex;
         public int TabSelectedIndex
         {
@@ -29,7 +31,7 @@ namespace ViewLayer.ViewModels
             set
             {
                 Trace.WriteLine(value);
-                if (tabSelectedIndex != value)
+                if (tabSelectedIndex != value && value != -1)
                 {
                     tabSelectedIndex = value;
                     OnPropertyChanged();
@@ -44,13 +46,15 @@ namespace ViewLayer.ViewModels
 
 
         private ResourceDictionary _localization;
-        public MainViewModel(DockerViewModel dockerViewModel,ConfigManager configManager)
+        public MainViewModel(DockerViewModel dockerViewModel,ConfigManager configManager,WindowManager windowManager)
         {
             _localization = Application.Current.Resources;
             _configManager = configManager;
+            _windowManager = windowManager;
             DockerViewModel = dockerViewModel;
 
             ChangeThemeCommand = new RelayCommand(param => this.OnChangeTheme(), param => true);
+            OnOpenSettingsCommand = new RelayCommand(param => this.OnOpenSettings(), param => true);
             ChangeLocalizationCommand = new RelayCommand(param => this.OnChangeLocalization(), param => true);
             #region DomainService
             GenerateCommand = new RelayCommand(param => this.OnGenerate(), param => true);
@@ -60,6 +64,11 @@ namespace ViewLayer.ViewModels
             ProjectDomainService.SubscribeProjectsChanged(GetAllProjects);
             ProjectDomainService.SubscribeSelectedPagesChanged(GetSelectedPages);
             #endregion
+        }
+
+        private void OnOpenSettings()
+        {
+            _windowManager.ShowDialog<SettingsWindow>();
         }
 
         private void OnChangeLocalization()

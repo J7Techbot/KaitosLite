@@ -117,22 +117,6 @@ namespace DomainLayer.Managers
             }
         }
 
-        //TODO:Need rwork
-        public void UpdateOrder(SModule module, ComponentType _xKey, object value)
-        {
-            UpdateSettings(module, _xKey, "order", value);
-
-            var detached = module.Panels.Where(x => x.detached == true);
-            var attachedLastOrder = module.Panels.Where(x => !x.detached).OrderByDescending(x => x.order).First().order;
-            if (detached.Count() > 1)
-            {
-                foreach (var panel in detached)
-                {
-                    panel.order = attachedLastOrder + 1;
-                    attachedLastOrder++;
-                }
-            }
-        }
         public object ReturnValue(SModule module, ComponentType _xKey, string propertyName, bool detached = false)
         {
             object source = module.Panels.First(x => x.component.Equals(_xKey.ToString()));

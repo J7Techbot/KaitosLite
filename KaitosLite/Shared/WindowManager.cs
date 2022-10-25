@@ -1,5 +1,6 @@
 ﻿using KaitosObjects.DTOs;
 using KaitosObjects.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,10 +49,18 @@ namespace ViewLayer.Shared
             //var window = serviceProvider.GetRequiredService<T>();
             //...
         }
-        public void ShowDialog<T>() where T : Window, new()
+        public async void ShowDialog<T>(object param = null) where T : Window, new()
         {
-            T newWindow = new T();
-            newWindow.ShowDialog();
+            var window = _serviceProvider.GetRequiredService<T>();
+
+            if (window is IActivable activableWindow)
+            {
+                await activableWindow.ActivateAsync(param);
+            }
+
+            window.ShowDialog();
+
+          
         }
         public void ShowDialogNjected<T>() where T : Window
         {
@@ -59,11 +68,14 @@ namespace ViewLayer.Shared
             //var window = serviceProvider.GetRequiredService<T>();
             //...
         }
+
+        IServiceProvider _serviceProvider;
         UserControlManager _userControlManager;
         List<PopUpWindow> _openedPopUps;
         List<PopUpWindow> _allPopUps;
-        public WindowManager(UserControlManager userControlManager)
+        public WindowManager(UserControlManager userControlManager, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _userControlManager = userControlManager;
             _allPopUps = new List<PopUpWindow>();
             _allPopUps.Add(new PopUpWindow() { XKeyIdent = ComponentType.projectComp });
